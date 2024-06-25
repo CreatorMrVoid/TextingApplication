@@ -16,10 +16,10 @@
 
     <q-tab-panels v-model="tab" animated>
       <q-tab-panel name="login">
-        <div class="text-h6">Mails</div>
+        <div class="text-h6">Login</div>
         Lorem ipsum dolor sit amet consectetur adipisicing elit.
         <div class="text-h6">Mails</div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        Swift fox jumps over the lazy dog.
       </q-tab-panel>
 
       <q-tab-panel name="register">
