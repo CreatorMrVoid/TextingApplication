@@ -1,11 +1,9 @@
 package com.lenora.staj.websocket.persistence.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity(name = "Users") // veri tabanı için entity
@@ -17,5 +15,7 @@ public class User {
     private UUID id;
     private String username;
     private String password;
+    @OneToMany(mappedBy = "Topic", fetch = FetchType.LAZY)
+    private Set<Message> messages;
 
 }
