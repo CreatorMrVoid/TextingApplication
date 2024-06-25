@@ -1,24 +1,42 @@
 <template>
-  <q-card class="q-pa-xl" style="width: 300px">
-    <div class="q-gutter-md">
-      <!-- Bind the username property to this input -->
-      <q-input
-        v-model="username"
-        label="Kullanıcı Adı"
-        outlined
-        class="fixed-size-input"
-      ></q-input>
+  <q-card>
+    <q-tabs
+      v-model="tab"
+      dense
+      class="text-grey"
+      active-color="primary"
+      indicator-color="primary"
+      narrow-indicator
+    >
+      <q-tab name="login" label="Login"></q-tab>
+      <q-tab name="register" label="Register"></q-tab>
+    </q-tabs>
 
-      <!-- Bind the password property to this input -->
-      <q-input
-        v-model="password"
-        label="Şifre"
-        outlined
-        type="password"
-        class="fixed-size-input"
-      ></q-input>
-      <q-btn color="primary" label="Giriş Yap" @click="login" />
-    </div>
+    <q-separator></q-separator>
+
+    <q-tab-panels v-model="tab" animated>
+      <q-tab-panel name="login">
+        <div class="text-h6">Mails</div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        <div class="text-h6">Mails</div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </q-tab-panel>
+
+      <q-tab-panel name="register">
+        <div class="text-h6">Alarms</div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </q-tab-panel>
+    </q-tab-panels>
+
+    <q-separator></q-separator>
+
+    <q-tabs
+      v-model="tab"
+      dense
+      :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
+      narrow-indicator
+    >
+    </q-tabs>
   </q-card>
 </template>
 
@@ -29,6 +47,7 @@ import { api } from "boot/axios";
 // Define the data properties
 const username = ref("");
 const password = ref("");
+const tab = ref("login");
 
 async function login() {
   //TODO
