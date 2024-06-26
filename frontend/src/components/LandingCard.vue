@@ -53,10 +53,7 @@
             outlined
             type="password"
             class="fixed-size-input"
-            :rules="[
-              (val) => !!val || '* Required',
-              (val) => val != passwordRegister || 'Passwords must match!',
-            ]"
+            :rules="[(val) => !!val || '* Required']"
           ></q-input>
 
           <!-- Bind the password property to this input -->
@@ -66,10 +63,7 @@
             outlined
             type="password"
             class="fixed-size-input"
-            :rules="[
-              (val) => !!val || '* Required',
-              (val) => val != passwordCheck || 'Passwords must match!',
-            ]"
+            :rules="[(val) => !!val || '* Required', validatePasswordsMatch]"
           ></q-input>
           <q-btn color="primary" label="Kayıt Ol" @click="register" />
         </div>
@@ -94,13 +88,15 @@ import { api } from "boot/axios";
 
 // Define the data properties
 const username = ref("");
+const usernameRegister = ref("");
+
 const password = ref("");
 const passwordCheck = ref("");
 const passwordRegister = ref("");
 const tab = ref("login");
 
 async function login() {
-  const body = { password: password, username: username };
+  const body = { username: username.value, password: password.value };
   try {
     let response = await api.get("/auth/login", { data: body });
     alert(response.data);
@@ -110,7 +106,10 @@ async function login() {
 }
 
 async function register() {
-  const body = { password: password, username: username };
+  const body = {
+    usernameRegister: usernameRegister.value,
+    passwordRegister: password.value,
+  };
   try {
     let response = await api.get("/auth/register", { data: body });
     alert(response.data);
@@ -118,4 +117,8 @@ async function register() {
     alert("Error: " + error);
   }
 }
+
+const validatePasswordsMatch = (val: string) => {
+  return val === passwordCheck.value ? true : "Passwords must match!";
+};
 </script>
