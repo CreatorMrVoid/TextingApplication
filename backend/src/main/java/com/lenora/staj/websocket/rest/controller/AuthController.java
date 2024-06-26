@@ -15,25 +15,14 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/register")
-    public String register(@RequestParam String username, @RequestParam String password) {
+    public String register(@RequestBody String username, @RequestBody String password) {
         User user = userService.registerUser(username, password);
         return user != null ? "Registration successful" : "Registration failed";
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
+    public String login(@RequestBody String username, @RequestBody String password) {
         User user = userService.loginUser(username, password);
         return "Login failed";
-    }
-
-    @GetMapping("/login")
-    public String login2() {
-        return "Login";
-    }
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "Logout successful";
     }
 }
