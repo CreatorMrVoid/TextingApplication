@@ -102,15 +102,13 @@ async function login() {
 
 async function register() {
   //TODO
-  /* if ("passwordCheck" == "password") {
-    alert(passwordCheck);
-  }
-   const body = { password: password, username: username };
+
+  const body = { password: password, username: username };
   try {
     let response = await api.get("/auth/register", { data: body });
     alert(response.data);
   } catch (error) {
     alert("Error: " + error);
-  } */
+  }
 }
 </script>

@@ -10,9 +10,14 @@ import java.util.UUID;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String text;
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "writer_id", nullable = false)
     private User writer;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "topic_id", nullable = false)
+    private Topic topic;
 
 
 }

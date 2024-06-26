@@ -1,13 +1,11 @@
 package com.lenora.staj.websocket.persistence.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -16,8 +14,9 @@ public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID topicId;
+    private UUID id;
     private String topic;
-    private List<Message> messages;
+    @OneToMany(mappedBy = "topic")
+    private Set<Message> messages;
 
 }
