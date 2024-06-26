@@ -22,7 +22,7 @@ public class MessageService {
     }
 
     public Message findById(UUID id) {
-        return messageRepository.findById(id);
+        return messageRepository.findById(id).orElse(null);
     }
 
 }

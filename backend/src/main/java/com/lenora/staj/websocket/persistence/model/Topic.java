@@ -14,11 +14,13 @@ public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID topicId;
+    private UUID id;
     private String topic;
-    @OneToMany (mappedBy = "user_id")
+    @OneToMany (mappedBy = "topic")
     private Set<Message> messages;
     private String title;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "creator_id")
     private User creator;
 
 }

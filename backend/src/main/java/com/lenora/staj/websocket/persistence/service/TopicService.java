@@ -7,15 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 public class TopicService {
     @Autowired
     private TopicRepository topicRepository;
 
-    @Transactional
-    public void test() {
-        Topic t = topicRepository.findByText("aaa");
 
-        List<Message> messages = t.getMessages();
-    }
 }

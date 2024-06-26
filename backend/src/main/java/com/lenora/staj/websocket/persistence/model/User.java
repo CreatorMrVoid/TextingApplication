@@ -15,9 +15,9 @@ public class User {
     private UUID id;
     private String username;
     private String password;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private Set<Message> messages;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "creator" )
     private Set<Topic> topics;
 
 }
