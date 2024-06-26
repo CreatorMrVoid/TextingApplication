@@ -53,15 +53,23 @@
             outlined
             type="password"
             class="fixed-size-input"
+            :rules="[
+              (val) => !!val || '* Required',
+              (val) => val != passwordRegister || 'Passwords must match!',
+            ]"
           ></q-input>
 
           <!-- Bind the password property to this input -->
           <q-input
-            v-model="password"
+            v-model="passwordRegister"
             label="Şifre Tekrar"
             outlined
             type="password"
             class="fixed-size-input"
+            :rules="[
+              (val) => !!val || '* Required',
+              (val) => val != passwordCheck || 'Passwords must match!',
+            ]"
           ></q-input>
           <q-btn color="primary" label="Kayıt Ol" @click="register" />
         </div>
@@ -88,6 +96,7 @@ import { api } from "boot/axios";
 const username = ref("");
 const password = ref("");
 const passwordCheck = ref("");
+const passwordRegister = ref("");
 const tab = ref("login");
 
 async function login() {
@@ -101,16 +110,12 @@ async function login() {
 }
 
 async function register() {
-  //TODO
-  /* if ("passwordCheck" == "password") {
-    alert(passwordCheck);
-  }
-   const body = { password: password, username: username };
+  const body = { password: password, username: username };
   try {
     let response = await api.get("/auth/register", { data: body });
     alert(response.data);
   } catch (error) {
     alert("Error: " + error);
-  } */
+  }
 }
 </script>

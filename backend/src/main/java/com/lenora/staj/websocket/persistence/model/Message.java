@@ -9,6 +9,7 @@ import java.util.UUID;
 @Data
 public class Message {
     @Id
+    private UUID id;
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String text;
     @ManyToOne(fetch = FetchType.EAGER)
