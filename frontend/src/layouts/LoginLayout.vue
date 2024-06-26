@@ -5,7 +5,7 @@
         <div
           class="fullscreen row wrap justify-center items-center content-center"
         >
-          <LoginCard />
+          <LandingCard />
         </div>
       </q-page>
     </q-page-container>
@@ -13,5 +13,5 @@
 </template>
 
 <script setup lang="ts">
-import LoginCard from "components/LoginCard.vue";
+import LandingCard from "components/LandingCard.vue";
 </script>
