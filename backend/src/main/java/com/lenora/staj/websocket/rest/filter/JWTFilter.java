@@ -43,7 +43,7 @@ public class JWTFilter extends HttpFilter {
 
         String token = authorizationHeader.substring(7);
         String user = jwtUtil.extractUsername(token);
-        if (!jwtUtil.validate(token, user)) {
+        if (user != null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Invalid Token");
             return;

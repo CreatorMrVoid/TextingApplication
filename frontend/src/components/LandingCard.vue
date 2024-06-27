@@ -41,7 +41,7 @@
         <div class="q-gutter-md">
           <!-- Bind the username property to this input -->
           <q-input
-            v-model="username"
+            v-model="usernameRegister"
             label="Kullanıcı Adı"
             outlined
             :rules="[(val) => !!val || '* Required']"
@@ -99,7 +99,12 @@ const tab = ref("login");
 async function login() {
   const body = { username: username.value, password: password.value };
   try {
-    let response = await api.post("/auth/login", { data: body });
+    let response = await api.post("/auth/login", body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    api.defaults.headers.common["Authorization"] = "Bearer " + response.data;
     alert(response.data);
   } catch (error) {
     alert("Error: " + error);
@@ -108,11 +113,15 @@ async function login() {
 
 async function register() {
   const body = {
-    usernameRegister: usernameRegister.value,
-    passwordRegister: password.value,
+    username: usernameRegister.value,
+    password: passwordRegister.value,
   };
   try {
-    let response = await api.post("/auth/register", { data: body });
+    let response = await api.post("/auth/register", body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     alert(response.data);
   } catch (error) {
     alert("Error: " + error);

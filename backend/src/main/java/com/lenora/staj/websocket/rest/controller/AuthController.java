@@ -24,7 +24,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserPassView userPass) {
         User user = userService.registerUser(userPass.getUsername(), userPass.getPassword());
-        if(user != null && StringUtils.isNotBlank(userPass.getPassword())) {
+        if(user != null) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -33,9 +33,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserPassView userPass) {
-        String jwt = jwtUtil.createJWT(userPass.getUsername());
         User user = userService.loginUser(userPass.getUsername(), userPass.getPassword());
-        if(user != null && StringUtils.isNotBlank(userPass.getPassword())) {
+        if(user != null) {
+            String jwt = jwtUtil.createJWT(userPass.getUsername());
             return new ResponseEntity<>(jwt, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

@@ -14,6 +14,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String username;
+    @Column (length = 255)
     private String password;
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private Set<Message> messages;
