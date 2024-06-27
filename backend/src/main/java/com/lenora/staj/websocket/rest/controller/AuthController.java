@@ -36,6 +36,8 @@ public class AuthController {
         User user = userService.loginUser(userPass.getUsername(), userPass.getPassword());
         if(user != null) {
             String jwt = jwtUtil.createJWT(userPass.getUsername());
+
+            // return jwtUtil.validate("TOKEN", userPass.getUsername());
             return new ResponseEntity<>(jwt, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

@@ -86,6 +86,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { api } from "boot/axios";
+import { useRouter } from "vue-router";
 
 // Define the data properties
 const username = ref("");
@@ -95,6 +96,7 @@ const password = ref("");
 const passwordCheck = ref("");
 const passwordRegister = ref("");
 const tab = ref("login");
+const router = useRouter();
 
 async function login() {
   const body = { username: username.value, password: password.value };
@@ -106,6 +108,7 @@ async function login() {
     });
     api.defaults.headers.common["Authorization"] = "Bearer " + response.data;
     alert(response.data);
+    router.push("/forum/topics");
   } catch (error) {
     alert("Error: " + error);
   }
