@@ -5,8 +5,7 @@
     </q-item-section>
 
     <q-item-section>
-      <q-item-label>Contact #{{}}</q-item-label>
-      <q-item-label caption lines="1">some@email.com</q-item-label>
+      <q-item-label>{{ topicName }}</q-item-label>
     </q-item-section>
 
     <q-item-section side>
@@ -17,6 +16,17 @@
 
 <style lang="sass" scoped>
 .example-item
+{
   height: 56px
-  // props here
+}
 </style>
+
+<script setup lang="ts">
+import { defineProps } from "vue";
+
+interface Props {
+  topicName: string;
+}
+
+const props = defineProps<Props>();
+</script>

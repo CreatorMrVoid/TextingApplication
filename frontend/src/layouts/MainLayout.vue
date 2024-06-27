@@ -60,10 +60,10 @@ setTimeout(() => {
 
 const linksList: EssentialLinkProps[] = [
   {
-    title: "Docs",
-    caption: "quasar.dev",
+    title: "Developer",
+    caption: "Özgün Bey",
     icon: "school",
-    link: "https://quasar.dev",
+    link: "https://instagram.com/ozgun_by",
   },
   {
     title: "Github",

@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [
     path: "/forum",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "/topics", component: () => import("pages/TopicsPage.vue") },
+      { path: "/topics", component: () => import("pages/TopicsPage.vue") }, // Relative path
     ],
   },
 

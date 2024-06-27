@@ -5,7 +5,7 @@
         <div
           class="fullscreen row wrap justify-center items-center content-center"
         >
-          <TopicsCard />
+          <TopicsPage />
         </div>
       </q-page>
     </q-page-container>
@@ -13,5 +13,5 @@
 </template>
 
 <script setup lang="ts">
-import TopicsCard from "components/TopicsCard.vue";
+import TopicsPage from "components/TopicsPage.vue";
 </script>
