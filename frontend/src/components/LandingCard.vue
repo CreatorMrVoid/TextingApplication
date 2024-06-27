@@ -44,6 +44,7 @@
             v-model="username"
             label="Kullanıcı Adı"
             outlined
+            :rules="[(val) => !!val || '* Required']"
             class="fixed-size-input"
           ></q-input>
 
@@ -98,7 +99,7 @@ const tab = ref("login");
 async function login() {
   const body = { username: username.value, password: password.value };
   try {
-    let response = await api.get("/auth/login", { data: body });
+    let response = await api.post("/auth/login", { data: body });
     alert(response.data);
   } catch (error) {
     alert("Error: " + error);
@@ -111,7 +112,7 @@ async function register() {
     passwordRegister: password.value,
   };
   try {
-    let response = await api.get("/auth/register", { data: body });
+    let response = await api.post("/auth/register", { data: body });
     alert(response.data);
   } catch (error) {
     alert("Error: " + error);
