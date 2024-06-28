@@ -17,11 +17,14 @@ public class UserService {
     private UserRepository userRepository;
 
     public User registerUser(String username, String password) {
-        User user = new User();
-        user.setUsername(username);
-        String hashedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray());
-        user.setPassword(hashedPassword);
-        return userRepository.save(user);
+        User user = userRepository.findByUsername(username);
+        if (user == null ) {
+            user = new User();
+            user.setUsername(username);
+            String hashedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray());
+            user.setPassword(hashedPassword);
+            return userRepository.save(user);
+        } else return null;
     }
 
     /**
@@ -42,5 +45,13 @@ public class UserService {
         return null;
     }
 
+    // databaseden kullanıcı sorgula
+    public User getUser(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null ) {
+            return null;
+        } else
+            return user;
+    }
 }
 
