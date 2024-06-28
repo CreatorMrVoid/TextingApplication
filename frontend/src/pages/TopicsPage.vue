@@ -1,22 +1,30 @@
 <template>
   <q-page class="column items-center justify-evenly">
-    <TopicsCard v-for="n in 50" :key="n" :topic-name="`Topic ${n}`" />
+    <TopicsCard
+      v-for="topic in topics"
+      :key="topic.id"
+      :id="topic.id"
+      :topic-name="topic.topicName"
+      :topic-title="topic.topicTitle"
+      :topic-creator-name="topic.topicCreatorName"
+    />
   </q-page>
 </template>
 
 <script setup lang="ts">
-import TopicsCard from "components/TopicsCard.vue";
+import TopicsCard, { TopicsCardProps } from "components/TopicsCard.vue";
 import { ref, onMounted } from "vue";
 import axios from "axios";
 
-const topics = ref([]);
+const topics = ref([] as TopicsCardProps[]);
 
 onMounted(async () => {
   try {
-    const response = await axios.get("/api/topics");
+    // Burası post mu get mi?
+    let response = await axios.post("/api/topics");
     topics.value = response.data;
   } catch (error) {
-    console.error("Error fetching topics:", error);
+    alert("Error: " + error);
   }
 });
 </script>
