@@ -28,4 +28,11 @@ withDefaults(defineProps<EssentialLinkProps>(), {
   link: "#",
   icon: "",
 });
+
+/*
+const props = withDefaults(defineProps<Props>(), {
+  msg: 'hello',
+  labels: () => ['one', 'two']
+})
+*/
 </script>

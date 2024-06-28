@@ -14,10 +14,10 @@ public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
 
-    public Message sendMessage(String text, User writer) {
+    public Message sendMessage(String text, User creator) {
         Message message = new Message();
         message.setText(text);
-        message.setWriter(writer);
+        message.setWriter(creator);
         return messageRepository.save(message);
     }
 

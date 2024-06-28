@@ -2,8 +2,13 @@ package com.lenora.staj.websocket.rest.controller;
 
 import com.lenora.staj.websocket.persistence.model.User;
 import com.lenora.staj.websocket.persistence.service.UserService;
+import com.lenora.staj.websocket.rest.request.UserPassView;
+import com.lenora.staj.websocket.util.JWTUtil;
 import jakarta.servlet.http.HttpSession;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -13,16 +18,29 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private JWTUtil jwtUtil;
 
     @PostMapping("/register")
-    public String register(@RequestBody String username, @RequestBody String password) {
-        User user = userService.registerUser(username, password);
-        return user != null ? "Registration successful" : "Registration failed";
+    public ResponseEntity<?> register(@RequestBody UserPassView userPass) {
+        User user = userService.registerUser(userPass.getUsername(), userPass.getPassword());
+        if(user != null) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody String username, @RequestBody String password) {
-        User user = userService.loginUser(username, password);
-        return "Login failed";
+    public ResponseEntity<?> login(@RequestBody UserPassView userPass) {
+        User user = userService.loginUser(userPass.getUsername(), userPass.getPassword());
+        if(user != null) {
+            String jwt = jwtUtil.createJWT(userPass.getUsername());
+
+            // return jwtUtil.validate("TOKEN", userPass.getUsername());
+            return new ResponseEntity<>(jwt, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 }
