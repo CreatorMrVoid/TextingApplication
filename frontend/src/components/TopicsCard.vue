@@ -17,8 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "src/boot/axios";
-
 // import { defineProps } from "vue";
 
 export interface TopicsCardProps {

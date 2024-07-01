@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,8 +28,9 @@ public class JWTFilter extends HttpFilter {
 
         String path = request.getRequestURI();
 
-        // Skip JWT check for excluded URLs
-        if (excludeUrls.contains(path)) {
+
+        // Skip JWT check for excluded URLs and OPTIONS requests
+        if (excludeUrls.contains(path) || "OPTIONS".equalsIgnoreCase(request.getMethod())) {
             chain.doFilter(request, response);
             return;
         }
@@ -43,7 +45,7 @@ public class JWTFilter extends HttpFilter {
 
         String token = authorizationHeader.substring(7);
         String user = jwtUtil.extractUsername(token);
-        if (user != null) {
+        if (StringUtils.isBlank(user)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Invalid Token");
             return;

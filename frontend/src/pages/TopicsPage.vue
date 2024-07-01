@@ -14,14 +14,13 @@
 <script setup lang="ts">
 import TopicsCard, { TopicsCardProps } from "components/TopicsCard.vue";
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import { api } from "boot/axios";
 
 const topics = ref([] as TopicsCardProps[]);
 
 onMounted(async () => {
   try {
-    // Burası post mu get mi?
-    let response = await axios.post("/api/topics");
+    let response = await api.get("forum/topics");
     topics.value = response.data;
   } catch (error) {
     alert("Error: " + error);

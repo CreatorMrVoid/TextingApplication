@@ -107,7 +107,7 @@ async function login() {
       },
     });
     api.defaults.headers.common["Authorization"] = "Bearer " + response.data;
-    alert(response.data);
+    //alert(response.data);
     router.push("/forum/topics");
   } catch (error) {
     alert("Error: " + error);

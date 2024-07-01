@@ -38,30 +38,6 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-
-    <q-btn label="Prompt" color="primary" @click="prompt = true" />
-
-    <q-dialog v-model="prompt" persistent>
-      <q-card style="min-width: 350px">
-        <q-card-section>
-          <div class="text-h6">Your address</div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <q-input
-            dense
-            v-model="address"
-            autofocus
-            @keyup.enter="prompt = false"
-          />
-        </q-card-section>
-
-        <q-card-actions align="left" class="text-primary">
-          <q-btn flat label="Cancel" v-close-popup />
-          <q-btn flat label="Add address" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
   </q-layout>
 </template>
 
@@ -85,7 +61,6 @@ setTimeout(() => {
 const alert = ref(false);
 const confirm = ref(false);
 const prompt = ref(false);
-const address = ref("");
 
 const linksList: EssentialLinkProps[] = [
   {
