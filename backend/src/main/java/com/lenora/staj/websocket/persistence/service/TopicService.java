@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,11 +18,15 @@ public class TopicService {
     private TopicRepository topicRepository;
 
 
-    public Topic createTopic(String topicName, String title, User creator) {
+    public Topic createTopic(String name, String description, User creator) {
+        assert creator != null;
         Topic topic = new Topic();
-        topic.setTopic(topicName);
-        topic.setTitle(title);
+        topic.setName(name);
+        topic.setDescription(description);
         topic.setCreator(creator);
+        HashSet<User> members = new HashSet<>();
+        members.add(creator);
+        topic.setMembers(members);
         return topicRepository.save(topic);
     }
     public List<Topic> findAll() {

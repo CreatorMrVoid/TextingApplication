@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class TopicCreateView {
-    String topic;
-    String title;
-    String creator;
+    String name;
+    String description;
 }

@@ -15,16 +15,15 @@ public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private String topic;
+    private String name;
     @OneToMany (mappedBy = "topic")
     private Set<Message> messages;
-    private String title;
+    private String description;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "creator_id")
+    @JoinColumn(name = "creator_id")    // buradaki syntax doğru mu?
     private User creator;
-    //@OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
-   // @JoinColumn(name = "subs_id")
-    //private Set<User> subs;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<User> members;
 
     // https://www.baeldung.com/jpa-many-to-many
 }

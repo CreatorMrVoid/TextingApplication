@@ -19,6 +19,7 @@ public class User {
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private Set<Message> messages;
     @OneToMany(mappedBy = "creator" )
-    private Set<Topic> topics;
-
+    private Set<Topic> createdTopics;
+    @ManyToMany
+    private Set<Topic> subs;
 }

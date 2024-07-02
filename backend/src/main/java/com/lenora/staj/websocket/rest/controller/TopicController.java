@@ -25,21 +25,23 @@ public class TopicController {
 
     @GetMapping
     public List<TopicListView> getAllTopics() {
-        return topicService.findAll().stream()
+        List<Topic> topics = topicService.findAll();
+        List<TopicListView> views = topics.stream()
                 .map(topic -> new TopicListView(
                         topic.getId().toString(),
-                        topic.getTopic(),
-                        topic.getTitle(),
+                        topic.getName(),
+                        topic.getDescription(),
                         topic.getCreator().getUsername()
                 ))
-                .collect(Collectors.toList());
+                .toList();
+        return views;
     }
 
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody TopicCreateView topicCreateView, @RequestAttribute("username") String username) {
         User user = userService.getUser(username);
-        Topic topic = topicService.createTopic(topicCreateView.getTopic(), topicCreateView.getTitle(), user);
+        Topic topic = topicService.createTopic(topicCreateView.getName(), topicCreateView.getDescription(), user);
         if (user != null) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {

@@ -45,6 +45,7 @@ public class JWTFilter extends HttpFilter {
 
         String token = authorizationHeader.substring(7);
         String user = jwtUtil.extractUsername(token);
+        //TODO check if user actually exists
         if (StringUtils.isBlank(user)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Invalid Token");
