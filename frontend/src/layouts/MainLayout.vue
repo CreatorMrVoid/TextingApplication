@@ -11,7 +11,7 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title> The Message App </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import EssentialLink, {
   EssentialLinkProps,
 } from "components/EssentialLink.vue";
@@ -71,21 +71,23 @@ setTimeout(() => {
   description.value = "testing 2";
 }, 1000);
 
-const alert = ref(false);
-const confirm = ref(false);
-const prompt = ref(false);
-
 const linksList: EssentialLinkProps[] = [
-  {
-    title: "Developer",
-    caption: "Özgün Bey",
-    icon: "school",
-    link: "http://localhost:9000/#/forum/topics/mytopics",
-  },
   {
     title: "My Topics",
     caption: "Display My Topics",
     icon: "chat",
+    link: "http://localhost:9000/#/forum/topics/mytopics",
+  },
+  {
+    title: "All Topics Of The Forum",
+    caption: "Display All The Topics",
+    icon: "chat",
+    link: "http://localhost:9000/#/forum/topics",
+  },
+  {
+    title: "Developer",
+    caption: "Özgün Bey",
+    icon: "school",
     link: "https://instagram.com/ozgun_by",
   },
   {

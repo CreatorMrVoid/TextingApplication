@@ -13,5 +13,5 @@
 </template>
 
 <script setup lang="ts">
-import TopicsPage from "components/MyTopicsPage.vue";
+import MyTopicsPage from "components/MyTopicsPage.vue";
 </script>

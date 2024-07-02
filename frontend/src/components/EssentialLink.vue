@@ -1,5 +1,6 @@
 <template>
   <q-item clickable tag="a" target="_blank" :href="link">
+    <!-- buraya bak, yeni sekmede açılma ile ilgili-->
     <q-item-section v-if="icon" avatar>
       <q-icon :name="icon" />
     </q-item-section>
@@ -28,11 +29,4 @@ withDefaults(defineProps<EssentialLinkProps>(), {
   link: "#",
   icon: "",
 });
-
-/*
-const props = withDefaults(defineProps<Props>(), {
-  msg: 'hello',
-  labels: () => ['one', 'two']
-})
-*/
 </script>
