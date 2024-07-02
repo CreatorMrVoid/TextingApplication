@@ -20,6 +20,4 @@ public class User {
     private Set<Message> messages;
     @OneToMany(mappedBy = "creator" )
     private Set<Topic> createdTopics;
-    @ManyToMany
-    private Set<Topic> subs;
-}
+    // private Set<Topic> likedTopics;

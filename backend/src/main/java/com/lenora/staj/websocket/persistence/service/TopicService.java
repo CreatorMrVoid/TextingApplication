@@ -32,4 +32,18 @@ public class TopicService {
     public List<Topic> findAll() {
         return topicRepository.findAll();
     }
+
+    /* BURADAN DEVAM ET YARIM KALDI
+    public List<Topic> findLiked() {
+        List<Topic> allTopics = topicRepository.findAll();
+        Topic topic = new Topic();
+        List<User> allMembers = topic.getMembers();
+        for(member m in allMembers) {
+            if(m.getUser == )
+        }
+            return
+    }
+
+
+     */
 }

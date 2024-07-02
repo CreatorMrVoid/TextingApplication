@@ -22,7 +22,7 @@ public class Topic {
     @ManyToOne(optional = false)
     @JoinColumn(name = "creator_id")    // buradaki syntax doğru mu?
     private User creator;
-    @ManyToMany(fetch = FetchType.LAZY)
+   // @ManyToMany(fetch = FetchType.LAZY)
     private Set<User> members;
 
     // https://www.baeldung.com/jpa-many-to-many

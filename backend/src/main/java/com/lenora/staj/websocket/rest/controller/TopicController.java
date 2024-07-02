@@ -24,7 +24,7 @@ public class TopicController {
     private UserService userService;
 
     @GetMapping
-    public List<TopicListView> getAllTopics() {
+    public List<TopicListView> getLikedTopics() {
         List<Topic> topics = topicService.findAll();
         List<TopicListView> views = topics.stream()
                 .map(topic -> new TopicListView(
@@ -37,6 +37,19 @@ public class TopicController {
         return views;
     }
 
+    @GetMapping
+    public List<TopicListView> getAllTopics() {
+        List<Topic> topics = topicService.findAll();
+        List<TopicListView> views = topics.stream()
+                .map(topic -> new TopicListView(
+                        topic.getId().toString(),
+                        topic.getName(),
+                        topic.getDescription(),
+                        topic.getCreator().getUsername()
+                ))
+                .toList();
+        return views;
+    }
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody TopicCreateView topicCreateView, @RequestAttribute("username") String username) {
