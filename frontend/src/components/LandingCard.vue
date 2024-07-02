@@ -87,7 +87,8 @@
 import { ref } from "vue";
 import { api } from "boot/axios";
 import { useRouter } from "vue-router";
-
+//import { useQuasar } from "quasar"; // localStorage kullanımı için eklendi
+import { LocalStorage } from "quasar";
 // Define the data properties
 const username = ref("");
 const usernameRegister = ref("");
@@ -107,7 +108,7 @@ async function login() {
       },
     });
     api.defaults.headers.common["Authorization"] = "Bearer " + response.data;
-    alert(response.data);
+    LocalStorage.set("jwt", response.data);
     router.push("/forum/topics");
   } catch (error) {
     alert("Error: " + error);

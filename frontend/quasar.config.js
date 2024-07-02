@@ -18,6 +18,9 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
+    framework: {
+      plugins: ["LocalStorage"],
+    },
     boot: ["axios"],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css

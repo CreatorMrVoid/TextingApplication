@@ -22,5 +22,9 @@ public class Topic {
     @ManyToOne(optional = false)
     @JoinColumn(name = "creator_id")
     private User creator;
+    //@OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+   // @JoinColumn(name = "subs_id")
+    //private Set<User> subs;
 
+    // https://www.baeldung.com/jpa-many-to-many
 }

@@ -38,38 +38,27 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-
-    <q-btn label="Prompt" color="primary" @click="prompt = true" />
-
-    <q-dialog v-model="prompt" persistent>
-      <q-card style="min-width: 350px">
-        <q-card-section>
-          <div class="text-h6">Your address</div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <q-input
-            dense
-            v-model="address"
-            autofocus
-            @keyup.enter="prompt = false"
-          />
-        </q-card-section>
-
-        <q-card-actions align="left" class="text-primary">
-          <q-btn flat label="Cancel" v-close-popup />
-          <q-btn flat label="Add address" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
   </q-layout>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import EssentialLink, {
   EssentialLinkProps,
 } from "components/EssentialLink.vue";
+import { LocalStorage } from "quasar";
+import { api } from "boot/axios";
+import { useRouter } from "vue-router";
+
+const token = LocalStorage.getItem("jwt");
+const router = useRouter();
+
+if (token) {
+  api.defaults.headers.common["Authorization"] = "Bearer " + token;
+  console.log("succes");
+} else {
+  router.replace("/");
+}
 
 defineOptions({
   name: "MainLayout",
@@ -85,13 +74,18 @@ setTimeout(() => {
 const alert = ref(false);
 const confirm = ref(false);
 const prompt = ref(false);
-const address = ref("");
 
 const linksList: EssentialLinkProps[] = [
   {
     title: "Developer",
     caption: "Özgün Bey",
     icon: "school",
+    link: "http://localhost:9000/#/forum/topics/mytopics",
+  },
+  {
+    title: "My Topics",
+    caption: "Display My Topics",
+    icon: "chat",
     link: "https://instagram.com/ozgun_by",
   },
   {
