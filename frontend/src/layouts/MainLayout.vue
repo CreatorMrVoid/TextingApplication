@@ -42,10 +42,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import EssentialLink, {
   EssentialLinkProps,
 } from "components/EssentialLink.vue";
+import { LocalStorage } from "quasar";
+import { api } from "boot/axios";
+import { useRouter } from "vue-router";
+
+const token = LocalStorage.getItem("jwt");
+const router = useRouter();
+
+if (token) {
+  api.defaults.headers.common["Authorization"] = "Bearer " + token;
+  console.log("succes");
+} else {
+  router.replace("/");
+}
 
 defineOptions({
   name: "MainLayout",
@@ -67,6 +80,12 @@ const linksList: EssentialLinkProps[] = [
     title: "Developer",
     caption: "Özgün Bey",
     icon: "school",
+    link: "http://localhost:9000/#/forum/topics/mytopics",
+  },
+  {
+    title: "My Topics",
+    caption: "Display My Topics",
+    icon: "chat",
     link: "https://instagram.com/ozgun_by",
   },
   {
