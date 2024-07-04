@@ -20,9 +20,9 @@ public class Topic {
     private Set<Message> messages;
     private String description;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "creator_id")    // buradaki syntax doğru mu?
+    @JoinColumn(name = "creator_id") 
     private User creator;
-   // @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<User> members;
 
     // https://www.baeldung.com/jpa-many-to-many

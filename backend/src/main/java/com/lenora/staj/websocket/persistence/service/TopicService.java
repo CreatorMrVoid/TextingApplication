@@ -1,16 +1,12 @@
 package com.lenora.staj.websocket.persistence.service;
 
-import com.lenora.staj.websocket.persistence.model.Message;
 import com.lenora.staj.websocket.persistence.model.Topic;
 import com.lenora.staj.websocket.persistence.model.User;
 import com.lenora.staj.websocket.persistence.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class TopicService {
@@ -33,17 +29,18 @@ public class TopicService {
         return topicRepository.findAll();
     }
 
-    /* BURADAN DEVAM ET YARIM KALDI
-    public List<Topic> findLiked() {
-        List<Topic> allTopics = topicRepository.findAll();
-        Topic topic = new Topic();
-        List<User> allMembers = topic.getMembers();
-        for(member m in allMembers) {
-            if(m.getUser == )
-        }
-            return
+
+    public Topic likeTopic(String topicId, User user) {
+        Topic topic = findById(topicId);
+        Set<User> members = topic.getMembers();
+        members.add(user);
+        return topic;
+    }
+    public Topic findById(String topicId) {
+        return findById(UUID.fromString(topicId));
+    }
+    public Topic findById(UUID topicId) {
+        return topicRepository.findById(topicId).orElse(null);
     }
 
-
-     */
 }
