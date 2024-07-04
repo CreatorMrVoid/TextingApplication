@@ -14,11 +14,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String username;
-    @Column (length = 255)
+    @Column(length = 255)
     private String password;
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private Set<Message> messages;
-    @OneToMany(mappedBy = "creator" )
-    private Set<Topic> topics;
+    @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
+    private Set<Topic> createdTopics;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Topic> likedTopics;
+
 
 }

@@ -6,13 +6,13 @@ import lombok.Data;
 public class TopicListView {
     private String id;
     private String topicName;
-    private String topicTitle;
+    private String topicDescription;
     private String topicCreatorName;
 
-    public TopicListView(String id, String topicName, String topicTitle, String topicCreatorName) {
+    public TopicListView(String id, String topicName, String topicDescription, String topicCreatorName) {
         this.id = id;
         this.topicName = topicName;
-        this.topicTitle = topicTitle;
+        this.topicDescription = topicDescription;
         this.topicCreatorName = topicCreatorName;
     }
 }

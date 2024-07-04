@@ -4,11 +4,8 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.lenora.staj.websocket.persistence.model.User;
 import com.lenora.staj.websocket.persistence.repository.UserRepository;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.boot.model.source.spi.Sortable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService {
@@ -17,7 +14,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public User registerUser(String username, String password) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findFirstByUsername(username);
         if (user == null ) {
             user = new User();
             user.setUsername(username);
@@ -34,7 +31,7 @@ public class UserService {
      * @return User object or null
      */
     public User loginUser(String username, String password) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findFirstByUsername(username);
 
         if (user != null && StringUtils.isNotBlank(password)) {
             BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword().toCharArray());
@@ -47,7 +44,7 @@ public class UserService {
 
     // databaseden kullanıcı sorgula
     public User getUser(String username) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findFirstByUsername(username);
         if (user == null ) {
             return null;
         } else

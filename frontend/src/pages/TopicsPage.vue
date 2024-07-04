@@ -1,24 +1,32 @@
 <template>
-  <q-page class="column items-center justify-evenly">
+  <q-page>
+    <div class="q-pa-md" style="max-width: 300px">
+      <q-toolbar class="bg-primary text-white shadow-2">
+        <q-toolbar-title>Topics</q-toolbar-title>
+      </q-toolbar>
+    </div>
     <TopicsCard
       v-for="topic in topics"
       :key="topic.id"
       :id="topic.id"
       :topic-name="topic.topicName"
-      :topic-title="topic.topicTitle"
+      :topic-description="topic.topicDescription"
       :topic-creator-name="topic.topicCreatorName"
+      @topic-click="navigateToTopic"
     />
-    <NewTopic />
+    <TopicOptionsCard />
   </q-page>
 </template>
 
 <script setup lang="ts">
 import TopicsCard, { TopicsCardProps } from "components/TopicsCard.vue";
-import NewTopic from "src/components/NewTopic.vue";
+import TopicOptionsCard from "src/components/TopicOptionsCard.vue";
 import { ref, onMounted } from "vue";
 import { api } from "boot/axios";
+import { useRouter } from "vue-router";
 
 const topics = ref([] as TopicsCardProps[]);
+const router = useRouter();
 
 onMounted(async () => {
   try {
@@ -28,4 +36,9 @@ onMounted(async () => {
     alert("Error: " + error);
   }
 });
+
+const navigateToTopic = (topicId: string) => {
+  // Navigate to the topic page with the topic id
+  router.push("forum/topic/message");
+};
 </script>

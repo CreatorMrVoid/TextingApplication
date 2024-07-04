@@ -2,10 +2,10 @@
   <q-page>
     <div class="q-pa-md" style="max-width: 300px">
       <q-toolbar class="bg-primary text-white shadow-2">
-        <q-toolbar-title>My Topics</q-toolbar-title>
+        <q-toolbar-title>Liked Topics</q-toolbar-title>
       </q-toolbar>
     </div>
-    <MyTopicsCard
+    <LikedTopicsCard
       v-for="topic in topics"
       :key="topic.id"
       :id="topic.id"
@@ -18,16 +18,18 @@
 </template>
 
 <script setup lang="ts">
-import MyTopicsCard, { MyTopicsCardProps } from "components/MyTopicsCard.vue";
+import LikedTopicsCard, {
+  LikedTopicsCardProps,
+} from "components/LikedTopicsCard.vue";
 import TopicOptionsCard from "src/components/TopicOptionsCard.vue";
 import { ref, onMounted } from "vue";
 import { api } from "boot/axios";
 
-const topics = ref([] as MyTopicsCardProps[]);
+const topics = ref([] as LikedTopicsCardProps[]);
 
 onMounted(async () => {
   try {
-    let response = await api.get("forum/topics/created");
+    let response = await api.get("forum/topics/liked");
     topics.value = response.data;
   } catch (error) {
     alert("Error: " + error);

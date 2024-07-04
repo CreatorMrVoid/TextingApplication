@@ -33,12 +33,12 @@
 <script setup lang="ts">
 // import { defineProps } from "vue";
 
-export interface MyTopicsCardProps {
+export interface LikedTopicsCardProps {
   id: string;
   topicName: string;
   topicDescription: string;
   topicCreatorName: string;
 }
 
-const props = defineProps<MyTopicsCardProps>();
+const props = defineProps<LikedTopicsCardProps>();
 </script>

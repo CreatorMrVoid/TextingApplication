@@ -5,7 +5,7 @@
         <div
           class="fullscreen row wrap justify-center items-center content-center"
         >
-          <MyTopicsPage />
+          <LikedTopicsPage />
         </div>
       </q-page>
     </q-page-container>
@@ -13,5 +13,5 @@
 </template>
 
 <script setup lang="ts">
-import MyTopicsPage from "components/MyTopicsPage.vue";
+import LikedTopicsPage from "components/LikedTopicsPage.vue";
 </script>

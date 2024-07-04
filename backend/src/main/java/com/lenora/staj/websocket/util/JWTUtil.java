@@ -46,6 +46,6 @@ public class JWTUtil {
                 // reusable verifier instance
                 .build();
         DecodedJWT decodedJWT = verifier.verify(token);
-        return decodedJWT.getClaim("userName").toString();
+        return decodedJWT.getClaim("userName").asString();
     }
 }

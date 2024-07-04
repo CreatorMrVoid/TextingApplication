@@ -89,7 +89,6 @@ import { api } from "boot/axios";
 import { useRouter } from "vue-router";
 //import { useQuasar } from "quasar"; // localStorage kullanımı için eklendi
 import { LocalStorage } from "quasar";
-// Define the data properties
 const username = ref("");
 const usernameRegister = ref("");
 

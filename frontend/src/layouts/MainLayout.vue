@@ -11,7 +11,7 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title> The Message App </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
@@ -22,7 +22,14 @@
         <q-item-label header> Essential Links </q-item-label>
 
         <EssentialLink
-          v-for="link in linksList"
+          v-for="link in essentialLinks"
+          :key="link.title"
+          v-bind="link"
+        />
+        <q-item-label header> External Links </q-item-label>
+
+        <ExternalLink
+          v-for="link in externalLinks"
           :key="link.title"
           v-bind="link"
         />
@@ -30,7 +37,7 @@
           :title="title"
           :caption="description"
           icon="bug_report"
-          link="http://www.example.com"
+          routeTo="/test"
         ></EssentialLink>
       </q-list>
     </q-drawer>
@@ -42,10 +49,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import EssentialLink, {
   EssentialLinkProps,
 } from "components/EssentialLink.vue";
+import ExternalLink, { ExternalLinkProps } from "components/ExternalLink.vue";
 import { LocalStorage } from "quasar";
 import { api } from "boot/axios";
 import { useRouter } from "vue-router";
@@ -71,21 +79,11 @@ setTimeout(() => {
   description.value = "testing 2";
 }, 1000);
 
-const alert = ref(false);
-const confirm = ref(false);
-const prompt = ref(false);
-
-const linksList: EssentialLinkProps[] = [
+const externalLinks: ExternalLinkProps[] = [
   {
     title: "Developer",
     caption: "Özgün Bey",
     icon: "school",
-    link: "http://localhost:9000/#/forum/topics/mytopics",
-  },
-  {
-    title: "My Topics",
-    caption: "Display My Topics",
-    icon: "chat",
     link: "https://instagram.com/ozgun_by",
   },
   {
@@ -126,6 +124,26 @@ const linksList: EssentialLinkProps[] = [
   },
 ];
 
+const essentialLinks: EssentialLinkProps[] = [
+  {
+    title: "My Topics",
+    caption: "Display My Topics",
+    icon: "chat",
+    link: "http://localhost:9000/#/forum/topics/mytopics",
+  },
+  {
+    title: "Liked Topics",
+    caption: "Display All Liked Topics",
+    icon: "favorite",
+    link: "http://localhost:9000/#/forum/topics/likedtopics",
+  },
+  {
+    title: "All Topics Of The Forum",
+    caption: "Display All The Topics",
+    icon: "list",
+    link: "http://localhost:9000/#/forum/topics",
+  },
+];
 const leftDrawerOpen = ref(false);
 
 function toggleLeftDrawer() {
