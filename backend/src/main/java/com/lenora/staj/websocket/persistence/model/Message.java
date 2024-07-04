@@ -18,6 +18,4 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "topic_id")
     private Topic topic;
-
-
 }

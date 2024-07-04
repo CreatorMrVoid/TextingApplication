@@ -12,7 +12,8 @@ import java.util.*;
 public class TopicService {
     @Autowired
     private TopicRepository topicRepository;
-
+    @Autowired
+    private  UserService userService;
 
     public Topic createTopic(String name, String description, User creator) {
         assert creator != null;
@@ -29,12 +30,17 @@ public class TopicService {
         return topicRepository.findAll();
     }
 
-
-    public Topic likeTopic(String topicId, User user) {
+    public void likeTopic(String topicId, String username) {
         Topic topic = findById(topicId);
-        Set<User> members = topic.getMembers();
-        members.add(user);
-        return topic;
+        if (topic != null) {
+            Set<User> members = topic.getMembers();
+            User user = userService.getUser(username);
+            assert user != null;
+            members.add(user);
+            topicRepository.save(topic);
+        } else {
+            throw new NullPointerException("Topic couldn't be found");
+        }
     }
     public Topic findById(String topicId) {
         return findById(UUID.fromString(topicId));
