@@ -31,14 +31,7 @@
 </template>
 
 <script setup lang="ts">
-// import { defineProps } from "vue";
-
-export interface MyTopicsCardProps {
-  id: string;
-  topicName: string;
-  topicDescription: string;
-  topicCreatorName: string;
-}
+import { MyTopicsCardProps } from "src/types/types";
 
 const props = defineProps<MyTopicsCardProps>();
 </script>

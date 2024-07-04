@@ -18,12 +18,11 @@
 </template>
 
 <script setup lang="ts">
-import LikedTopicsCard, {
-  LikedTopicsCardProps,
-} from "components/LikedTopicsCard.vue";
+import LikedTopicsCard from "components/LikedTopicsCard.vue";
 import TopicOptionsCard from "src/components/TopicOptionsCard.vue";
 import { ref, onMounted } from "vue";
 import { api } from "boot/axios";
+import { LikedTopicsCardProps } from "src/types/types";
 
 const topics = ref([] as LikedTopicsCardProps[]);
 

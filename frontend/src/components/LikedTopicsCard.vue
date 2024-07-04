@@ -31,14 +31,7 @@
 </template>
 
 <script setup lang="ts">
-// import { defineProps } from "vue";
-
-export interface LikedTopicsCardProps {
-  id: string;
-  topicName: string;
-  topicDescription: string;
-  topicCreatorName: string;
-}
+import { LikedTopicsCardProps } from "src/types/types";
 
 const props = defineProps<LikedTopicsCardProps>();
 </script>

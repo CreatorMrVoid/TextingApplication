@@ -38,31 +38,22 @@
 
 <script setup lang="ts">
 import { api } from "boot/axios";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
+import { TopicsCardProps } from "src/types/types";
 
 const router = useRouter();
-
-export interface TopicsCardProps {
-  id: string;
-  topicName: string;
-  topicDescription: string;
-  topicCreatorName: string;
-}
+const route = useRoute();
+route.query.topicid;
 
 const props = defineProps<TopicsCardProps>();
 
 async function view() {
-  try {
-    await api.get("forum/topics/topicmessages");
-  } catch (error) {
-    alert("Error: " + error);
-  }
+  router.push("/forum/messages?topicid=" + props.id);
 }
 
 async function likeTopic() {
   try {
-    await api.post("/auth/like");
-    router.push("/forum/topics/topic-id"); // burada yönlendirme nasıl olacak
+    await api.post("/forum/topics/like");
   } catch (error) {
     alert("Error: " + error);
   }
