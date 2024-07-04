@@ -20,6 +20,13 @@ const routes: RouteRecordRaw[] = [
       { path: "mytopics", component: () => import("pages/MyTopicsPage.vue") },
     ],
   },
+  {
+    path: "/forum/topics",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "mytopics", component: () => import("pages/MyTopicsPage.vue") },
+    ],
+  },
 
   // Always leave this as last one,
   // but you can also remove it

@@ -12,6 +12,7 @@
       :topic-name="topic.topicName"
       :topic-description="topic.topicDescription"
       :topic-creator-name="topic.topicCreatorName"
+      @topic-click="navigateToTopic"
     />
     <TopicOptionsCard />
   </q-page>
@@ -22,8 +23,10 @@ import TopicsCard, { TopicsCardProps } from "components/TopicsCard.vue";
 import TopicOptionsCard from "src/components/TopicOptionsCard.vue";
 import { ref, onMounted } from "vue";
 import { api } from "boot/axios";
+import { useRouter } from "vue-router";
 
 const topics = ref([] as TopicsCardProps[]);
+const router = useRouter();
 
 onMounted(async () => {
   try {
@@ -33,4 +36,9 @@ onMounted(async () => {
     alert("Error: " + error);
   }
 });
+
+const navigateToTopic = (topicId: string) => {
+  // Navigate to the topic page with the topic id
+  router.push("forum/topic/message");
+};
 </script>

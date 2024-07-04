@@ -12,7 +12,7 @@
         <q-fab-action
           color="primary"
           @click="openDialog"
-          icon="chat"
+          icon="edit_document"
           label="New Topic"
         />
         <q-fab-action
@@ -80,18 +80,6 @@
           />
         </q-card-section>
 
-        <q-card-section class="q-pt-none">
-          <q-input
-            dense
-            v-model="topicDescription"
-            label="Description: "
-            outlined
-            class="fixed-size-input"
-            :rules="[(val) => !!val || '* Required']"
-            autofocus
-          />
-        </q-card-section>
-
         <q-card-actions align="left" class="text-primary">
           <q-btn flat label="Cancel" v-close-popup @click="closeSearch" />
           <q-btn flat label="Search Topic" v-close-popup @click="searchTopic" />
@@ -132,6 +120,7 @@ const closeSearch = () => {
 const createTopic = async () => {
   try {
     let response = await api.post("forum/topics", {
+      // burası nasıl çalışabiliyor, (link yanlış asılnda)
       name: topicName.value,
       description: topicDescription.value,
     });
@@ -140,10 +129,11 @@ const createTopic = async () => {
     alert("Error: " + error);
   }
   isDialogOpen.value = false;
+  //refresh(done);
 };
 const searchTopic = async () => {
   try {
-    let response = await api.post("forum/topics", {
+    let response = await api.post("forum/topics/search", {
       name: topicName.value,
       description: topicDescription.value,
     });
