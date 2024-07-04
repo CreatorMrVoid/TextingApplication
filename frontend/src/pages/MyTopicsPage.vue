@@ -18,10 +18,11 @@
 </template>
 
 <script setup lang="ts">
-import MyTopicsCard, { MyTopicsCardProps } from "components/MyTopicsCard.vue";
+import MyTopicsCard from "components/MyTopicsCard.vue";
 import TopicOptionsCard from "src/components/TopicOptionsCard.vue";
 import { ref, onMounted } from "vue";
 import { api } from "boot/axios";
+import { MyTopicsCardProps } from "src/types/types";
 
 const topics = ref([] as MyTopicsCardProps[]);
 

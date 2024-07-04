@@ -24,7 +24,17 @@ const routes: RouteRecordRaw[] = [
     path: "/forum/topics",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "mytopics", component: () => import("pages/MyTopicsPage.vue") },
+      {
+        path: "likedtopics",
+        component: () => import("pages/LikedTopicsPage.vue"),
+      },
+    ],
+  },
+  {
+    path: "/forum/topics/messages",
+    component: () => import("components/SendMessage.vue"),
+    children: [
+      { path: "messages", component: () => import("pages/MessagesPage.vue") },
     ],
   },
 

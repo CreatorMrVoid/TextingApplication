@@ -23,7 +23,7 @@ public class TopicController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/liked")
+    @GetMapping("/liked") // LikedTopics için
     public List<TopicListView> getLikedTopics(@RequestAttribute("username") String username) {
         Set<Topic> topics = userService.getUser(username).getLikedTopics();
         List<TopicListView> views = topics.stream()
@@ -77,19 +77,10 @@ public class TopicController {
     }
 
     @PostMapping("/like")
-    public ResponseEntity<?> like(@RequestAttribute("id") String topicId, @RequestAttribute("username") String username) {
+    public ResponseEntity<?> like(@RequestAttribute("id") String topicId, @RequestAttribute("username") String username) { // @RequestParam mı kullanmalıyız
+        topicService.likeTopic(topicId, username);
 
-        Topic topic = topicService.findById(topicId);
-
-        if (topic != null) {
-            Set<User> members = topic.getMembers();
-            User user = userService.getUser(username);
-            assert user != null;
-            members.add(user);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/search")
