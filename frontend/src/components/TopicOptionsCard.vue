@@ -94,7 +94,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { api } from "boot/axios";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const topicName = ref("");
 const topicDescription = ref("");
 const fab1 = ref(false);
@@ -120,7 +122,6 @@ const closeSearch = () => {
 const createTopic = async () => {
   try {
     let response = await api.post("forum/topics", {
-      // burası nasıl çalışabiliyor, (link yanlış asılnda)
       name: topicName.value,
       description: topicDescription.value,
     });
@@ -129,7 +130,7 @@ const createTopic = async () => {
     alert("Error: " + error);
   }
   isDialogOpen.value = false;
-  //refresh(done);
+  router.push("/forum/topics");
 };
 const searchTopic = async () => {
   try {

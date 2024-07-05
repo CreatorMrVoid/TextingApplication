@@ -53,7 +53,7 @@ async function view() {
 
 async function likeTopic() {
   try {
-    await api.post("/forum/topics/like");
+    await api.post("/forum/topics/like?topicId=" + props.id);
   } catch (error) {
     alert("Error: " + error);
   }
