@@ -5,6 +5,7 @@ import com.lenora.staj.websocket.persistence.model.User;
 import com.lenora.staj.websocket.persistence.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -15,6 +16,7 @@ public class TopicService {
     @Autowired
     private  UserService userService;
 
+    @Transactional
     public Topic createTopic(String name, String description, User creator) {
         assert creator != null;
         Topic topic = new Topic();
@@ -30,13 +32,13 @@ public class TopicService {
         return topicRepository.findAll();
     }
 
+    @Transactional
     public void likeTopic(String topicId, String username) {
         Topic topic = findById(topicId);
         if (topic != null) {
-            Set<User> members = topic.getMembers();
             User user = userService.getUser(username);
             assert user != null;
-            members.add(user);
+            topic.getMembers().add(user);
             topicRepository.save(topic);
         } else {
             throw new NullPointerException("Topic couldn't be found");

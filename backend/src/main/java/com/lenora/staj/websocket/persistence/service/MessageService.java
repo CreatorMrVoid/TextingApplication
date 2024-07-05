@@ -1,6 +1,7 @@
 package com.lenora.staj.websocket.persistence.service;
 
 import com.lenora.staj.websocket.persistence.model.Message;
+import com.lenora.staj.websocket.persistence.model.Topic;
 import com.lenora.staj.websocket.persistence.model.User;
 import com.lenora.staj.websocket.persistence.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,11 @@ public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
 
-    public Message sendMessage(String text, User creator) {
+    public Message saveMessage(String text, User creator, Topic topic   ) {
         Message message = new Message();
         message.setText(text);
         message.setWriter(creator);
+        message.setTopic(topic);
         return messageRepository.save(message);
     }
 

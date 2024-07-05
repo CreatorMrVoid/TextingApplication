@@ -11,6 +11,7 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @Column(length = 255)
     private String text;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "writer_id")
