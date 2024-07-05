@@ -77,7 +77,7 @@ public class TopicController {
     }
 
     @PostMapping("/like")
-    public ResponseEntity<?> like(@RequestAttribute("id") String topicId, @RequestAttribute("username") String username) { // @RequestParam mı kullanmalıyız
+    public ResponseEntity<?> like(@RequestParam() String topicId, @RequestAttribute("username") String username) {
         topicService.likeTopic(topicId, username);
 
         return new ResponseEntity<>(HttpStatus.OK);
