@@ -24,8 +24,11 @@
 <script setup>
 import { ref } from "vue";
 import { api } from "src/boot/axios";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const text = ref("");
+let topicId = route.query.topicid;
 
 const onSend = async (evt) => {
   evt.preventDefault();
@@ -33,7 +36,7 @@ const onSend = async (evt) => {
   const body = { text: text.value };
 
   try {
-    await api.post("/forum/message?topicId=" + props.id, body);
+    await api.post("/forum/message" + topicId, body);
     text.value = "";
   } catch (error) {
     alert("Error: " + error);

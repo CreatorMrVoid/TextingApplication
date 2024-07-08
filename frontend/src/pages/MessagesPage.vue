@@ -15,15 +15,20 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import { api } from "boot/axios";
 import { MessagesCardProps } from "src/types/types";
 import SendMessage from "src/layouts/SendMessage.vue";
 
+const route = useRoute();
 const messages = ref([] as MessagesCardProps[]);
+let topicId = route.query.topicid;
+console.log(route.query);
+console.dir(route);
 
 onMounted(async () => {
   try {
-    let response = await api.get("forum/messages");
+    let response = await api.get("forum/messages/" + topicId); // new URL(location.href).searchParams.get("topicid") = null veriyor // let topicId = route.query.topicid; kullanınca oluyor
     messages.value = response.data;
   } catch (error) {
     console.error("Failed to fetch messages:", error);
