@@ -14,7 +14,7 @@ public class MessageView {
 
     public MessageView convertToMessageView(Message message) {
         MessageView messageView = new MessageView();
-        // messageView.setId(message.getId());
+        messageView.setId(message.getId().toString());
         messageView.setText(message.getText());
         messageView.setWriter(message.getWriter());
         return messageView;

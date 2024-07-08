@@ -3,12 +3,10 @@ package com.lenora.staj.websocket.rest.controller;
 import com.lenora.staj.websocket.persistence.model.Message;
 import com.lenora.staj.websocket.persistence.model.Topic;
 import com.lenora.staj.websocket.persistence.model.User;
-import com.lenora.staj.websocket.persistence.repository.TopicRepository;
 import com.lenora.staj.websocket.persistence.service.MessageService;
 import com.lenora.staj.websocket.persistence.service.TopicService;
 import com.lenora.staj.websocket.persistence.service.UserService;
 import com.lenora.staj.websocket.rest.request.MessageView;
-import com.lenora.staj.websocket.rest.response.TopicListView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,15 +44,24 @@ public class MessageController {
         }
     }
 
-    @PostMapping("/{topicId}/send")
-    public ResponseEntity<MessageView> sendMessage(@PathVariable UUID topicId,  @RequestParam String text, @RequestAttribute("username") String username) {
+    @PostMapping("/{topicId}")
+    public ResponseEntity<MessageView> sendMessage(@PathVariable UUID topicId,  @RequestBody String text, @RequestAttribute("username") String username) {
         User user = userService.getUser(username);
-        Topic topic = topicService.findById(topicId);
-        Message message = messageService.saveMessage(text, user, topic);
 
-        MessageView messageView = messageView.convertToMessageView(message);
-
-        return ResponseEntity.ok(messageView);
-
+        if (user != null) {
+            Topic topic = topicService.findById(topicId);
+            Message message = messageService.saveMessage(text, user, topic);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+    /*
+    @MessageMapping("/chat")
+    @SendTo("/topic/messages")
+    public OutputMessage send(Message message) throws Exception {
+        String time = new SimpleDateFormat("HH:mm").format(new Date());
+        return new OutputMessage(message.getFrom(), message.getText(), time);
+    }
+     */
 }
