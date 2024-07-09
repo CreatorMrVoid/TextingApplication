@@ -10,6 +10,8 @@ import com.lenora.staj.websocket.rest.request.MessageView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -43,7 +45,8 @@ public class MessageController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-
+    //@MessageMapping("/message")
+    //@SendTo("/topic/messages")
     @PostMapping("/{topicId}")
     public ResponseEntity<MessageView> sendMessage(@PathVariable UUID topicId,  @RequestBody String text, @RequestAttribute("username") String username) {
         User user = userService.getUser(username);
@@ -57,11 +60,10 @@ public class MessageController {
         }
     }
     /*
-    @MessageMapping("/chat")
+    @MessageMapping("/message")
     @SendTo("/topic/messages")
-    public OutputMessage send(Message message) throws Exception {
-        String time = new SimpleDateFormat("HH:mm").format(new Date());
-        return new OutputMessage(message.getFrom(), message.getText(), time);
+    public OutputMessage send(Message message) {
+        return new OutputMessage(message.getFrom(), message.getText(), new Date());
     }
      */
 }
