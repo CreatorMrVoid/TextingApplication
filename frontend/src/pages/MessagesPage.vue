@@ -19,6 +19,7 @@ import { useRoute } from "vue-router";
 import { api } from "boot/axios";
 import { MessagesCardProps } from "src/types/types";
 import SendMessage from "src/layouts/SendMessage.vue";
+//import { Client, Message } from '@stomp/stompjs';
 
 const route = useRoute();
 const messages = ref([] as MessagesCardProps[]);

@@ -25,10 +25,13 @@
 import { ref } from "vue";
 import { api } from "src/boot/axios";
 import { useRoute } from "vue-router";
+import { Client, Message } from "@stomp/stompjs";
 
 const route = useRoute();
 const text = ref("");
 let topicId = route.query.topicid;
+const client = new StompJs.Client();
+client.brokerURL = "ws://localhost:8080/ws";
 
 const onSend = async (evt) => {
   evt.preventDefault();
@@ -36,6 +39,11 @@ const onSend = async (evt) => {
   const body = { text: text.value };
 
   try {
+    client.publish({
+      destination: "/forum/message" + topicId,
+      body,
+    });
+
     await api.post("/forum/message" + topicId, body);
     text.value = "";
   } catch (error) {
