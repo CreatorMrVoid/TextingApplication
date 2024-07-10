@@ -1,10 +1,9 @@
 <template>
   <div class="q-pa-md">
-    <q-form @send="onSend" class="q-gutter-md">
+    <q-form @submit="onSend" class="q-gutter-md">
       <q-item>
         <q-item-section>
           <q-input
-            text="text"
             v-model="text"
             color="primary"
             label="Enter Text"
@@ -21,44 +20,31 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
-import { api } from "src/boot/axios";
 import { useRoute } from "vue-router";
-import { Client, Message } from "@stomp/stompjs";
+import { getSocket } from "src/sockets/sockets";
 
 const route = useRoute();
 const text = ref("");
-let topicId = route.query.topicid;
-const client = new StompJs.Client();
-client.brokerURL = "ws://localhost:8080/ws";
+const topicId = route.query.topicid as string;
+const username = route.query.username as string;
 
-const onSend = async (evt) => {
-  evt.preventDefault();
-
-  const body = { text: text.value };
-
-  try {
-    client.publish({
-      destination: "/forum/message" + topicId,
-      body,
+const onSend = () => {
+  const socket = getSocket();
+  if (socket) {
+    socket.emit("messageSendToUser", {
+      text: text.value,
+      writer: username,
+      topicId: topicId,
     });
-
-    await api.post("/forum/message" + topicId, body);
-    text.value = "";
-  } catch (error) {
-    alert("Error: " + error);
   }
+  text.value = "";
 };
 </script>
 
 <style scoped>
-.send-message {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  background: white;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+.q-pa-md {
+  padding: 16px;
 }
 </style>

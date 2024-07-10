@@ -89,7 +89,7 @@ import { api } from "boot/axios";
 import { useRouter } from "vue-router";
 //import { useQuasar } from "quasar"; // localStorage kullanımı için eklendi
 import { LocalStorage } from "quasar";
-import { Client, Message } from "@stomp/stompjs";
+//import { Client, Message } from "@stomp/stompjs";
 
 const username = ref("");
 const usernameRegister = ref("");

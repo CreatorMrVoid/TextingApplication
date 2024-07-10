@@ -1,5 +1,10 @@
 <template>
   <q-page class="page">
+    <div>
+      <q-toolbar class="bg-secondary text-white shadow-2">
+        <q-toolbar-title :title="topicName" />
+      </q-toolbar>
+    </div>
     <div class="messages-container">
       <MessagesCard
         v-for="message in messages"
@@ -14,25 +19,43 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 import { api } from "boot/axios";
 import { MessagesCardProps } from "src/types/types";
 import SendMessage from "src/layouts/SendMessage.vue";
-//import { Client, Message } from '@stomp/stompjs';
+import MessagesCard from "src/components/MessagesCard.vue";
+import { initializeSocket, getSocket } from "src/sockets/sockets";
 
 const route = useRoute();
 const messages = ref([] as MessagesCardProps[]);
-let topicId = route.query.topicid;
-console.log(route.query);
-console.dir(route);
+const topicId = ref(route.query.topicid as string);
+const topicName = route.query.topicName as string;
+
+const addMessage = (message: MessagesCardProps) => {
+  messages.value.push(message);
+};
 
 onMounted(async () => {
   try {
-    let response = await api.get("forum/messages/" + topicId); // new URL(location.href).searchParams.get("topicid") = null veriyor // let topicId = route.query.topicid; kullanınca oluyor
+    let response = await api.get("forum/messages/" + topicId.value);
     messages.value = response.data;
+
+    // Initialize and connect to the Socket.IO server
+    const socket = initializeSocket(topicId.value);
+
+    // Listen for new messages
+    socket.on("message", addMessage);
   } catch (error) {
     console.error("Failed to fetch messages:", error);
+  }
+});
+
+onUnmounted(() => {
+  // Disconnect from the Socket.IO server
+  const socket = getSocket();
+  if (socket) {
+    socket.disconnect();
   }
 });
 </script>
@@ -47,13 +70,11 @@ onMounted(async () => {
   height: 100%;
   position: relative;
 }
-
 .messages-container {
   flex: 1;
   overflow-y: auto;
   padding-bottom: 60px;
 }
-
 .send-message {
   position: absolute;
   bottom: 0;
