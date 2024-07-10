@@ -17,7 +17,7 @@ public class MessageService {
     private MessageRepository messageRepository;
 
     @Transactional
-    public Message saveMessage(String text, User creator, Topic topic   ) {
+    public Message saveMessage(String text, String creator, Topic topic   ) {
         Message message = new Message();
         message.setText(text);
         assert creator != null;

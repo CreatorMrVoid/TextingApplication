@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class MessageView {
     private String id;
     private String text;
-    private User writer;
+    private String writer;
 
     public MessageView convertToMessageView(Message message) {
         MessageView messageView = new MessageView();
