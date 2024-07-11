@@ -1,30 +1,22 @@
-import { io, Socket } from "socket.io-client";
+import { io } from "socket.io-client";
 
-let socket: Socket | null = null;
+const socket = io("http://localhost:8081");
 
-export const initializeSocket = (topicId: string): Socket => {
-  if (!socket) {
-    socket = io("http://localhost:8081", {
-      // Use the Socket.IO server port
-      transports: ["websocket"],
-      query: { topicId },
-    });
-
+const connect = (message: string, eventName: string) => {
+  return new Promise<void>((resolve) => {
     socket.on("connect", () => {
-      console.log("Connected to Socket.IO server");
+      console.log("Connected to server");
+      socket.emit(eventName, message);
+      resolve();
     });
+  });
+};
 
-    socket.on("disconnect", () => {
-      console.log("Disconnected from Socket.IO server");
-    });
-  }
-
+const getSocket = () => {
   return socket;
 };
 
-export const getSocket = (): Socket | null => {
-  return socket;
-};
+export { connect, getSocket };
 
 /*
 export const socket = io(URL, {

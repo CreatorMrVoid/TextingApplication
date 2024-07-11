@@ -25,11 +25,11 @@ import { api } from "boot/axios";
 import { MessagesCardProps } from "src/types/types";
 import SendMessage from "src/layouts/SendMessage.vue";
 import MessagesCard from "src/components/MessagesCard.vue";
-import { initializeSocket, getSocket } from "src/sockets/sockets";
+import { connect, getSocket } from "src/sockets/sockets";
 
 const route = useRoute();
 const messages = ref([] as MessagesCardProps[]);
-const topicId = ref(route.query.topicid as string);
+const topicId = route.query.topicid as string;
 const topicName = route.query.topicName as string;
 
 const addMessage = (message: MessagesCardProps) => {
@@ -38,17 +38,17 @@ const addMessage = (message: MessagesCardProps) => {
 
 onMounted(async () => {
   try {
-    let response = await api.get("forum/messages/" + topicId.value);
+    let response = await api.get(`forum/messages/${topicId}`);
     messages.value = response.data;
-
-    // Initialize and connect to the Socket.IO server
-    const socket = initializeSocket(topicId.value);
-
-    // Listen for new messages
-    socket.on("message", addMessage);
   } catch (error) {
     console.error("Failed to fetch messages:", error);
   }
+  connect(topicId, "join_group").then(() => {
+    getSocket().on("message_sent", (msg: any) => {
+      console.log(msg);
+      addMessage(msg);
+    });
+  });
 });
 
 onUnmounted(() => {

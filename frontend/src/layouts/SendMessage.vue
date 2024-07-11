@@ -23,22 +23,18 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRoute } from "vue-router";
-import { getSocket } from "src/sockets/sockets";
+import { api } from "src/boot/axios";
 
 const route = useRoute();
 const text = ref("");
 const topicId = route.query.topicid as string;
-const username = route.query.username as string;
 
-const onSend = () => {
-  const socket = getSocket();
-  if (socket) {
-    socket.emit("messageSendToUser", {
-      text: text.value,
-      writer: username,
-      topicId: topicId,
-    });
-  }
+const onSend = async () => {
+  await api.post("forum/messages/" + topicId, text.value, {
+    headers: {
+      "Content-Type": "text/plain",
+    },
+  });
   text.value = "";
 };
 </script>

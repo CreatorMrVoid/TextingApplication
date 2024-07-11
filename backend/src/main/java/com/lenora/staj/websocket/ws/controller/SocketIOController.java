@@ -25,13 +25,12 @@ public class SocketIOController {
     public SocketIOController(SocketIOServer socketServer) {
         this.socketServer = socketServer;
     }
-
+/*
     public void sendDashboardUpdate(String topicId, Message message) {
         socketServer.getRoomOperations(topicId).sendEvent("dashboard_update", message);
     }
-
+*/
     public void onSendMessage (MessageSocketView message) {
         socketServer.getRoomOperations(message.getTopicid().toString()).sendEvent("message_sent", message);
     };
-
 }
