@@ -30,8 +30,23 @@ public class SocketIOConfig {
         return server;
     }
 
+    private void onUserConnectWithSocket() {
+        server.addConnectListener(client -> {
+            System.out.println("Client connected: " + client.getSessionId());
+        });
+
+        server.addEventListener("join_group", String.class, (client, topicId, ackSender) -> {
+            client.joinRoom(topicId);
+        });
+
+        server.addDisconnectListener(client -> {
+            System.out.println("Client disconnected: " + client.getSessionId());
+        });
+    }
+
     @PreDestroy
     public void stopSocketIOServer() {
         this.server.stop();
     }
+
 }
