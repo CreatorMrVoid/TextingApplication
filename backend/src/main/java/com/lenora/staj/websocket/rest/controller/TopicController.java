@@ -76,9 +76,21 @@ public class TopicController {
         }
     }
 
+    @PostMapping("/delete")
+    public ResponseEntity<?> delete(@RequestBody String topicId, @RequestAttribute("username") String username) {
+        User user = userService.getUser(username);
+        Set<Topic> createdTopics = user.getCreatedTopics();
+        Topic topic = topicService.deleteTopic(topicId, createdTopics);
+        if (user != null) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/like")
-    public ResponseEntity<?> like(@RequestParam() String topicId, @RequestAttribute("username") String username) {
-        topicService.likeTopic(topicId, username);
+    public ResponseEntity<?> like(@RequestParam() String topicid, @RequestAttribute("username") String username) {
+        topicService.likeTopic(topicid, username);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

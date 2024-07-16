@@ -48,12 +48,14 @@ route.query.topicid;
 const props = defineProps<TopicsCardProps>();
 
 async function view() {
+  //router.push("/forum/messages/" + props.id);
   router.push("/forum/messages?topicid=" + props.id);
 }
 
 async function likeTopic() {
   try {
-    await api.post("/forum/topics/like?topicId=" + props.id);
+    await api.post("/forum/topics/like?topicid=" + props.id);
+    //router.get("/forum/topics/like?topicid=" + props.id);
   } catch (error) {
     alert("Error: " + error);
   }

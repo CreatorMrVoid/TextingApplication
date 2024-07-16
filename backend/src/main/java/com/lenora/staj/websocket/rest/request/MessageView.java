@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 public class MessageView {
     private String id;
     private String text;
-    private User writer;
+    private String writer;
 
-    public MessageView convertToMessageView(Message message) {
+    public static MessageView convertToMessageView(Message message) {
         MessageView messageView = new MessageView();
-        // messageView.setId(message.getId());
         messageView.setText(message.getText());
         messageView.setWriter(message.getWriter());
+        messageView.setId(message.getId().toString());
         return messageView;
     }
 }

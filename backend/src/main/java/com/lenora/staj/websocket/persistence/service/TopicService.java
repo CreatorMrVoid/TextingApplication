@@ -28,6 +28,12 @@ public class TopicService {
         topic.setMembers(members);
         return topicRepository.save(topic);
     }
+    @Transactional
+    public Topic deleteTopic(String topicId, Set<Topic> createdTopics) {
+        Topic topic = findById(topicId);
+        createdTopics.remove(topic);
+        return topicRepository.save(topic);
+    }
     public List<Topic> findAll() {
         return topicRepository.findAll();
     }
@@ -38,8 +44,13 @@ public class TopicService {
         if (topic != null) {
             User user = userService.getUser(username);
             assert user != null;
-            topic.getMembers().add(user);
-            topicRepository.save(topic);
+            if (!topic.getMembers().contains(user)) {   // Kullanıcı like atmmamış ise.
+                topic.getMembers().add(user);
+                topicRepository.save(topic);
+            } else {    // Kullanıcı halihazırda like atmış ise -> Dislike
+                topic.getMembers().remove(user);
+                topicRepository.save(topic);
+            }
         } else {
             throw new NullPointerException("Topic couldn't be found");
         }

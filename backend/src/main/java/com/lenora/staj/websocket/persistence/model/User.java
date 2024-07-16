@@ -17,7 +17,8 @@ public class User {
     private String username;
     @Column(length = 255)
     private String password;
-    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writer_name", referencedColumnName = "username")
     private Set<Message> messages;
     @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
     private Set<Topic> createdTopics;
