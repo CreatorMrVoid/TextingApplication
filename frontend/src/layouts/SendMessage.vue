@@ -21,20 +21,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
 import { useRoute } from "vue-router";
 import { api } from "src/boot/axios";
 
+const emits = defineEmits(["send-message"]);
 const route = useRoute();
 const text = ref("");
 const topicId = route.query.topicid as string;
 
 const onSend = async () => {
-  await api.post("forum/messages/" + topicId, text.value, {
+  await api.post(`forum/messages/${topicId}`, text.value, {
     headers: {
       "Content-Type": "text/plain",
     },
   });
+  emits("send-message", text.value);
   text.value = "";
 };
 </script>

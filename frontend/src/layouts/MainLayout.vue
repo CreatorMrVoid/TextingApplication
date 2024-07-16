@@ -57,7 +57,6 @@ import ExternalLink, { ExternalLinkProps } from "components/ExternalLink.vue";
 import { LocalStorage } from "quasar";
 import { api } from "boot/axios";
 import { useRouter } from "vue-router";
-
 const token = LocalStorage.getItem("jwt");
 const router = useRouter();
 
