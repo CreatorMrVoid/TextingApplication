@@ -21,30 +21,54 @@ public class JWTFilter extends HttpFilter {
         this.jwtUtil = jwtUtil;
     }
     private final List<String> excludeUrls = Arrays.asList("/api/auth/login", "/api/auth/register");
-
+    private final List<String>  websocketURLs = Arrays.asList("/api/ws");
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
         String path = request.getRequestURI();
-
-
         // Skip JWT check for excluded URLs and OPTIONS requests
         if (excludeUrls.contains(path) || "OPTIONS".equalsIgnoreCase(request.getMethod())) {
             chain.doFilter(request, response);
             return;
         }
+        String token = "";
+        System.out.println("---path: " + path); // /api/ws/info
+        System.out.println("---websocketURLs: " + websocketURLs);
+        if (path.contains("/api/ws")) {
+            String query = request.getQueryString();
+            System.out.println("query: " + query);
+            if (query != null && query.contains("token=")) {
+                String t = token; //"abc=123&def=456"
+                String tokenIdentifier = "token=";
+                int tokenStartIndex = t.indexOf(tokenIdentifier) + tokenIdentifier.length();
+                String tokenCut = t.substring(tokenStartIndex);
+                int tokenEnd = tokenCut.indexOf("&");
+                token = tokenEnd==-1?"ERROR":tokenCut.substring(0, tokenEnd);
+            }
+            /***
+             * var test = "abc=123&def=456"
+             * var tokenIdentifier = "abc="
+             * var tokenStartIndex = test.indexOf(tokenIdentifier) + tokenIdentifier.length
+             * var tokenCut = test.substring(4)
+             * var tokenEnd = tokenCut.indexOf("&")
+             * return tokenEnd==-1?tokenEnd:tokenCut.substring(0, tokenEnd)
+             * condition?true:false
+             */
+            System.out.println("---TOKEN İÇİN DENEME: " + token );
 
-        String authorizationHeader = request.getHeader("Authorization");
+        } else {
+            String authorizationHeader = request.getHeader("Authorization");
 
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Unauthorized");
-            return;
+            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Unauthorized");
+                return;
+            }
+
+            token = authorizationHeader.substring(7);
         }
-
-        String token = authorizationHeader.substring(7);
-        String user = jwtUtil.extractUsername(token);
+          String user = jwtUtil.extractUsername(token);
         //TODO check if user actually exists
         if (StringUtils.isBlank(user)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
