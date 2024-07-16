@@ -8,13 +8,15 @@ import com.lenora.staj.websocket.persistence.service.TopicService;
 import com.lenora.staj.websocket.persistence.service.UserService;
 import com.lenora.staj.websocket.rest.request.MessageSocketView;
 import com.lenora.staj.websocket.rest.request.MessageView;
-import com.lenora.staj.websocket.ws.controller.SocketIOController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -29,8 +31,7 @@ public class MessageController {
     private MessageService messageService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private SocketIOController socketIOController;
+
 
     @GetMapping("/{topicId}")
     public ResponseEntity<List<MessageView>> getMessagesForTopic(@PathVariable("topicId") UUID topicId) {
@@ -46,6 +47,8 @@ public class MessageController {
         }
     }
 
+    @MessageMapping("/chat")
+    @SendTo("/api/forum/messages/{topicId}")
     @PostMapping("/{topicId}")
     public ResponseEntity<MessageView> sendMessage(@PathVariable UUID topicId, @RequestBody String text, @RequestAttribute("username") String username) {
         User user = userService.getUser(username);
@@ -55,7 +58,6 @@ public class MessageController {
 
             // Broadcast message via WebSocket
             MessageSocketView messageView = MessageSocketView.convertToMessageView(message);
-            socketIOController.onSendMessage(messageView);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

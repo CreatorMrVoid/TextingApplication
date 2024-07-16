@@ -89,8 +89,8 @@ public class TopicController {
     }
 
     @PostMapping("/like")
-    public ResponseEntity<?> like(@RequestParam() String topicId, @RequestAttribute("username") String username) {
-        topicService.likeTopic(topicId, username);
+    public ResponseEntity<?> like(@RequestParam() String topicid, @RequestAttribute("username") String username) {
+        topicService.likeTopic(topicid, username);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
