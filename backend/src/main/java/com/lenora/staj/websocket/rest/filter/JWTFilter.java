@@ -33,29 +33,19 @@ public class JWTFilter extends HttpFilter {
             return;
         }
         String token = "";
-        System.out.println("---path: " + path); // /api/ws/info
-        System.out.println("---websocketURLs: " + websocketURLs);
         if (path.contains("/api/ws")) {
             String query = request.getQueryString();
-            System.out.println("query: " + query);
             if (query != null && query.contains("token=")) {
-                String t = token; //"abc=123&def=456"
+                String t = query; //"abc=123&def=456"
                 String tokenIdentifier = "token=";
                 int tokenStartIndex = t.indexOf(tokenIdentifier) + tokenIdentifier.length();
                 String tokenCut = t.substring(tokenStartIndex);
                 int tokenEnd = tokenCut.indexOf("&");
-                token = tokenEnd==-1?"ERROR":tokenCut.substring(0, tokenEnd);
+                if(tokenEnd != -1)
+                    token = tokenCut.substring(0, tokenEnd);
+                else
+                    token = tokenCut;
             }
-            /***
-             * var test = "abc=123&def=456"
-             * var tokenIdentifier = "abc="
-             * var tokenStartIndex = test.indexOf(tokenIdentifier) + tokenIdentifier.length
-             * var tokenCut = test.substring(4)
-             * var tokenEnd = tokenCut.indexOf("&")
-             * return tokenEnd==-1?tokenEnd:tokenCut.substring(0, tokenEnd)
-             * condition?true:false
-             */
-            System.out.println("---TOKEN İÇİN DENEME: " + token );
 
         } else {
             String authorizationHeader = request.getHeader("Authorization");
@@ -67,6 +57,12 @@ public class JWTFilter extends HttpFilter {
             }
 
             token = authorizationHeader.substring(7);
+        }
+        try {
+            String user = jwtUtil.extractUsername(token);
+        }
+        catch (Exception e) {
+            throw e;
         }
           String user = jwtUtil.extractUsername(token);
         //TODO check if user actually exists

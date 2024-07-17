@@ -8,11 +8,13 @@ import com.lenora.staj.websocket.persistence.service.TopicService;
 import com.lenora.staj.websocket.persistence.service.UserService;
 import com.lenora.staj.websocket.rest.request.MessageSocketView;
 import com.lenora.staj.websocket.rest.request.MessageView;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
@@ -31,7 +33,8 @@ public class MessageController {
     private MessageService messageService;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     @GetMapping("/{topicId}")
     public ResponseEntity<List<MessageView>> getMessagesForTopic(@PathVariable("topicId") UUID topicId) {
@@ -47,10 +50,10 @@ public class MessageController {
         }
     }
 
-    @MessageMapping("/chat")
-    @SendTo("/api/forum/messages/{topicId}")
+    @MessageMapping("/api/ws/chat/{topicId}")
+    @SendTo("/api/ws/messages/{topicId}")
     @PostMapping("/{topicId}")
-    public ResponseEntity<MessageView> sendMessage(@PathVariable UUID topicId, @RequestBody String text, @RequestAttribute("username") String username) {
+    public void sendMessage(@PathVariable UUID topicId, @RequestBody String text, @RequestAttribute("username") String username) {
         User user = userService.getUser(username);
         if (user != null) {
             Topic topic = topicService.findById(topicId);
@@ -58,9 +61,14 @@ public class MessageController {
 
             // Broadcast message via WebSocket
             MessageSocketView messageView = MessageSocketView.convertToMessageView(message);
-            return new ResponseEntity<>(HttpStatus.OK);
+            LoggerFactory.getLogger(MessageController.class).info("Sending message to api/ws/messages/{}", topicId);
+            messagingTemplate.convertAndSend("/api/ws/messages/"+ topicId, messageView);
+            //return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            //return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new NullPointerException("User not found!");
         }
     }
+    @GetMapping("/{topicId}")
+
 }

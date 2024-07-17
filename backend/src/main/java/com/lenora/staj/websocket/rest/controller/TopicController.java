@@ -95,7 +95,7 @@ public class TopicController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/search")
+    @PostMapping("/search") // This method is not in use, created for future upgrade.
     public ResponseEntity<?> search(@RequestBody TopicListView topicListView) { // @RequestBody String topicName
         String topicId = topicListView.getId();
         Topic topic = topicService.findById(topicId);
