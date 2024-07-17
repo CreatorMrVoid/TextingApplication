@@ -125,7 +125,9 @@ const createTopic = async () => {
       name: topicName.value,
       description: topicDescription.value,
     });
-    alert(response.data);
+    alert(
+      response.data + " BURASI BİLDİRİM OLARAK GÖZÜKMELİ, ALERT KALDIRILMALI"
+    );
   } catch (error) {
     alert("Error: " + error);
   }

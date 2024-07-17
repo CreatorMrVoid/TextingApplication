@@ -17,7 +17,12 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer
+      v-model="leftDrawerOpen"
+      show-if-above
+      bordered
+      style="background-color: antiquewhite"
+    >
       <q-list>
         <q-item-label header> Essential Links </q-item-label>
 
@@ -33,12 +38,6 @@
           :key="link.title"
           v-bind="link"
         />
-        <EssentialLink
-          :title="title"
-          :caption="description"
-          icon="bug_report"
-          routeTo="/test"
-        ></EssentialLink>
       </q-list>
     </q-drawer>
 
@@ -71,7 +70,7 @@ defineOptions({
   name: "MainLayout",
 });
 
-let title = "Test";
+// let title = "Test";
 let description = ref("testing");
 
 setTimeout(() => {
@@ -128,19 +127,19 @@ const essentialLinks: EssentialLinkProps[] = [
     title: "My Topics",
     caption: "Display My Topics",
     icon: "chat",
-    link: "http://localhost:9000/#/forum/topics/mytopics",
+    link: "/forum/topics/mytopics",
   },
   {
     title: "Liked Topics",
     caption: "Display All Liked Topics",
     icon: "favorite",
-    link: "http://localhost:9000/#/forum/topics/likedtopics",
+    link: "/forum/topics/likedtopics",
   },
   {
     title: "All Topics Of The Forum",
     caption: "Display All The Topics",
     icon: "list",
-    link: "http://localhost:9000/#/forum/topics",
+    link: "/forum/topics",
   },
 ];
 const leftDrawerOpen = ref(false);

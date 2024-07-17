@@ -36,6 +36,7 @@ const onSend = async () => {
       "Content-Type": "text/plain",
     },
   });
+
   emits("send-message", text.value);
   text.value = "";
 };

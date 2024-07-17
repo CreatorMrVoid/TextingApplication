@@ -1,7 +1,14 @@
 <template>
   <div class="q-pa-md row justify-center">
     <div style="width: 100%; max-width: 400px">
-      <q-chat-message :name="props.writer" :text="[props.text]" sent />
+      <p class="text-accent">
+        <q-chat-message
+          :name="props.writer"
+          :text="[props.text]"
+          sent
+          bg-color="positive"
+        />
+      </p>
     </div>
   </div>
 </template>

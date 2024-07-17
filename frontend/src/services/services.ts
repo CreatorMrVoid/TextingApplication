@@ -2,7 +2,7 @@
 import { Client, Message } from "@stomp/stompjs";
 
 const stompClient = new Client({
-  brokerURL: "ws://localhost:8081/ws",
+  brokerURL: "ws://localhost:8080/ws",
   reconnectDelay: 5000,
   heartbeatIncoming: 4000,
   heartbeatOutgoing: 4000,

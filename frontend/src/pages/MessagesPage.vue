@@ -1,11 +1,19 @@
 <template>
-  <q-page class="page">
-    <div>
+  <div>
+    <header reveal elevated>
       <q-toolbar class="bg-secondary text-white shadow-2">
         <q-toolbar-title :title="topicName" />
       </q-toolbar>
-    </div>
-    <div class="messages-container">
+    </header>
+    <q-page-sticky position="top" expand class="bg-primary text-white">
+      <q-toolbar>
+        <q-btn flat round dense icon="map" />
+        <q-toolbar-title> Title </q-toolbar-title>
+      </q-toolbar>
+    </q-page-sticky>
+  </div>
+  <q-page-container>
+    <div>
       <MessagesCard
         v-for="message in messages"
         :key="message.id"
@@ -14,8 +22,14 @@
         :writer="message.writer"
       />
     </div>
-    <SendMessage @send-message="sendMessage" />
-  </q-page>
+  </q-page-container>
+  <q-container>
+    <div class="no-border">
+      <q-page-sticky position="bottom" expand class="bg text-white">
+        <SendMessage />
+      </q-page-sticky>
+    </div>
+  </q-container>
 </template>
 
 <script setup lang="ts">
@@ -32,12 +46,15 @@ import { LocalStorage } from "quasar";
 const route = useRoute();
 const messages = ref([] as MessagesCardProps[]);
 const topicId = route.query.topicid as string;
-const topicName = route.query.topicName as string;
-
+const topicName = ref("Yükleniyor...");
 const connected = ref(false);
-const from = ref("");
-const text = ref("");
+// const from = ref("");
+// const text = ref("");
 let stompClient: CompatClient | null = null;
+
+api.get("/api/forum/topics").then((resp) => {
+  topicName.value = resp.data;
+});
 
 const setConnected = (value: boolean) => {
   connected.value = value;
@@ -50,15 +67,13 @@ const connect = () => {
   const token = LocalStorage.getItem("jwt");
   const socket = SockJS("http://localhost:8080/api/ws?token=" + token);
   stompClient = Stomp.over(socket);
-  stompClient.connect({}, (frame: string) => {
+  stompClient.connect({ JsonWebToken: token }, (frame: string) => {
     setConnected(true);
     console.log("Connected: " + frame);
-    stompClient?.subscribe(
-      `http://localhost:8080/api/forum/messages/${topicId}`,
-      (messageOutput) => {
-        showMessageOutput(JSON.parse(messageOutput.body));
-      }
-    );
+    stompClient?.subscribe(`/api/ws/messages/${topicId}`, (messageOutput) => {
+      console.log("Got message: " + messageOutput.body);
+      showMessageOutput(JSON.parse(messageOutput.body));
+    });
   });
 };
 
@@ -70,16 +85,18 @@ const disconnect = () => {
   console.log("Disconnected");
 };
 
+/*
 const sendMessage = (message: string) => {
   if (stompClient && from.value && message) {
     stompClient.send(
-      `http://localhost:8080/api/forum/messages/${topicId}`,
+      `/api/ws/chat/${topicId}`,
       {},
       JSON.stringify({ from: from.value, text: message })
     );
     text.value = "";
   }
 };
+*/
 
 const showMessageOutput = (messageOutput: MessagesCardProps) => {
   messages.value.push(messageOutput);
