@@ -15,13 +15,17 @@
 
         <div>
           Quasar v{{ $q.version }}
-          <!-- <q-item class="q-my-sm" clickable v-ripple @click="viewProfile">
-            <q-item-section avatar>
-              <q-avatar color="green" text-color="white">
-                {{ user?.avatarUrl }}
-              </q-avatar>
-            </q-item-section>
-          </q-item> -->
+          <section>
+            <q-avatar
+              label="Send"
+              type="submit"
+              color="green"
+              class="q-mx-lg"
+              clickable
+              v-ripple
+              @click="viewProfile"
+            ></q-avatar>
+          </section>
         </div>
       </q-toolbar>
     </q-header>
@@ -50,7 +54,7 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container class="content-container">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -66,6 +70,7 @@ import { LocalStorage } from "quasar";
 import { api } from "boot/axios";
 import { useRouter } from "vue-router";
 import { Writer } from "src/types/types";
+
 const token = LocalStorage.getItem("jwt");
 const router = useRouter();
 let user = ref<Writer>();
@@ -76,9 +81,9 @@ api.get("/api/forum/messages").then((resp) => {
   avatarUrl.value = user.value?.name ?? "Fallback Value"; // başka türlü error veriyor.
 });
 
-// async function viewProfile() {
-//   api.get("getuserprofileNavigation");
-// }
+async function viewProfile() {
+  // api.get("getuserprofileNavigation"); /** Profile information can be added at next versions  */
+}
 
 if (token) {
   api.defaults.headers.common["Authorization"] = "Bearer " + token;
@@ -162,3 +167,15 @@ function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
 </script>
+<style scoped>
+.q-header {
+  z-index: 2;
+}
+
+.content-container {
+  padding-top: 56px; /* Adjust based on your toolbar height */
+  height: calc(100vh - 56px); /* Full height minus header height */
+  position: relative;
+  z-index: 1;
+}
+</style>

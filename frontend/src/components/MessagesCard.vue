@@ -1,10 +1,11 @@
 <template>
-  <div class="q-pa-md row justify-center">
+  <div class="q-pa-md row justify-center" style="width: 100%">
     <div style="width: 100%; max-width: 400px">
       <p class="text-accent">
         <q-chat-message
           :name="props.writer"
           :text="[props.text]"
+          :createdAt="[props.createdAt]"
           sent
           bg-color="positive"
         />

@@ -1,27 +1,22 @@
 <template>
-  <div>
-    <q-form
-      @submit="onSend"
-      class="fit row wrap justify-start items-start content-start"
-    >
-      <q-item>
-        <q-item-section>
-          <q-input
-            v-model="text"
-            color="primary"
-            label="Enter Text"
-            filled
-            clearable
-            :autocomplete="false"
-            autogrow
-          />
-        </q-item-section>
-        <q-item-section side>
-          <q-btn label="Send" type="submit" color="green" />
-        </q-item-section>
-      </q-item>
-    </q-form>
-  </div>
+  <q-form
+    @submit="onSend"
+    class="fit row wrap justify-center items-center content-center"
+    style="width: 100%"
+  >
+    <q-input
+      v-model="text"
+      color="primary"
+      label="Enter Text"
+      style="width: 70%"
+      filled
+      clearable
+      :autocomplete="false"
+      autogrow
+      class="q-ma-md"
+    />
+    <q-btn label="Send" type="submit" color="green" class="q-mx-lg" />
+  </q-form>
 </template>
 
 <script setup lang="ts">

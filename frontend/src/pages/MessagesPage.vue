@@ -12,21 +12,25 @@
       </q-toolbar>
     </q-page-sticky>
     <q-page-container>
-      <MessagesCard
-        v-for="message in messages"
-        :key="message.id"
-        :id="message.id"
-        :text="message.text"
-        :writer="message.writer"
-      />
+      <div class="messages-container">
+        <MessagesCard
+          v-for="message in messages"
+          :key="message.id"
+          :id="message.id"
+          :text="message.text"
+          :writer="message.writer"
+          :createdAt="message.createdAt"
+        />
+      </div>
     </q-page-container>
-    <q-container>
-      <q-page-sticky position="bottom" expand class="col bottom-sticky">
-        <q-card>
-          <SendMessage />
-        </q-card>
-      </q-page-sticky>
-    </q-container>
+    <q-page-sticky position="bottom" expand class="col bottom-sticky">
+      <q-card
+        style="width: 100%"
+        class="items-center content-center justify-center row"
+      >
+        <SendMessage />
+      </q-card>
+    </q-page-sticky>
   </div>
 </template>
 
@@ -50,7 +54,7 @@ const connected = ref(false);
 let stompClient: CompatClient | null = null;
 const topic = ref<TopicsCardProps>();
 
-api.get("/api/forum/messages").then((resp) => {
+api.post("/forum/messages").then((resp) => {
   topic.value = resp.data;
   topicName.value = topic.value?.topicName ?? "Fallback Value";
 });
@@ -120,8 +124,8 @@ onUnmounted(() => {
 }
 .messages-container {
   flex: 1;
-  overflow-y: auto;
-  padding-bottom: 60px;
+  overflow-y: scroll;
+  height: 80vh; /** Calc kullanarak hesapla, şuanda  */
 }
 .send-message {
   position: fixed;

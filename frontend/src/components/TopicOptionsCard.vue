@@ -125,16 +125,16 @@ const createTopic = async () => {
       name: topicName.value,
       description: topicDescription.value,
     });
-    alert(
-      response.data + " BURASI BİLDİRİM OLARAK GÖZÜKMELİ, ALERT KALDIRILMALI"
-    );
+    console.log(response.data); // + " BURASI BİLDİRİM OLARAK GÖZÜKMELİ, ALERT KALDIRILMALI";
   } catch (error) {
     alert("Error: " + error);
   }
   isDialogOpen.value = false;
   router.push("/forum/topics");
 };
+
 const searchTopic = async () => {
+  // The backend logic can be added at next versions of the application
   try {
     let response = await api.post("forum/topics/search", {
       name: topicName.value,

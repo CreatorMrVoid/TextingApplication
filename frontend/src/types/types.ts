@@ -23,6 +23,7 @@ export interface MessagesCardProps {
   id: string;
   text: string;
   writer: string;
+  createdAt: EpochTimeStamp;
 }
 
 //Message wirter

@@ -24,6 +24,7 @@ public class Message {
     @CreationTimestamp
     private Timestamp createdAt;
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

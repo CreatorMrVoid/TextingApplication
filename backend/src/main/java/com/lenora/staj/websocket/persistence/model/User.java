@@ -25,6 +25,7 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "members")
     private Set<Topic> likedTopics;
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

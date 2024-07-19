@@ -70,7 +70,7 @@ public class MessageController {
             throw new NullPointerException("User not found!");
         }
     }
-    @GetMapping
+    @PostMapping
     public TopicListView getTopicName(@PathVariable UUID topicId) {
         Topic topic = topicService.findById(topicId);
         return new TopicListView(
