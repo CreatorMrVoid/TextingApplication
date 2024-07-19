@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <div class="q-pa-md" style="max-width: 300px">
-      <q-toolbar class="bg-primary text-white shadow-2">
+      <q-toolbar class="bg-secondary text-white shadow-2">
         <q-toolbar-title>Liked Topics</q-toolbar-title>
       </q-toolbar>
     </div>

@@ -1,16 +1,16 @@
 <template>
   <div class="q-pa-md" style="max-width: 3000px">
-    <q-list bordered>
+    <q-list bordered style="background-color: lightgray">
       <q-item class="q-my-sm" clickable v-ripple @click="view">
         <q-item-section avatar>
-          <q-avatar color="primary" text-color="white">
+          <q-avatar color="green" text-color="white">
             {{ props.topicName.charAt(0) }}
           </q-avatar>
         </q-item-section>
 
         <q-item-section>
+          <q-item-label caption lines="1">{{ "Name:" }}</q-item-label>
           <q-item-label>{{ props.topicName }}</q-item-label>
-          <q-item-label caption lines="1">{{}}</q-item-label>
         </q-item-section>
 
         <q-item-section side>

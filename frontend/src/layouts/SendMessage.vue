@@ -52,6 +52,8 @@ const onSend = async () => {
 }
 .q-page-sticky.bottom-sticky {
   width: 100%;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .q-page-sticky.bottom-sticky .q-card {
@@ -61,8 +63,6 @@ const onSend = async () => {
 
 .q-input__inner {
   min-width: 100%;
-}
-.q-input__inner {
   max-width: 100%;
 }
 </style>

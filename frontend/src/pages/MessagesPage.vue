@@ -11,23 +11,23 @@
         <q-toolbar-title :title="topicName" />
       </q-toolbar>
     </q-page-sticky>
+    <q-page-container>
+      <MessagesCard
+        v-for="message in messages"
+        :key="message.id"
+        :id="message.id"
+        :text="message.text"
+        :writer="message.writer"
+      />
+    </q-page-container>
+    <q-container>
+      <q-page-sticky position="bottom" expand class="col bottom-sticky">
+        <q-card>
+          <SendMessage />
+        </q-card>
+      </q-page-sticky>
+    </q-container>
   </div>
-  <q-page-container>
-    <MessagesCard
-      v-for="message in messages"
-      :key="message.id"
-      :id="message.id"
-      :text="message.text"
-      :writer="message.writer"
-    />
-  </q-page-container>
-  <q-container>
-    <q-page-sticky position="bottom" expand class="col">
-      <q-card>
-        <SendMessage />
-      </q-card>
-    </q-page-sticky>
-  </q-container>
 </template>
 
 <script setup lang="ts">
@@ -47,14 +47,12 @@ const messages = ref([] as MessagesCardProps[]);
 const topicId = route.query.topicid as string;
 const topicName = ref("Yükleniyor...");
 const connected = ref(false);
-// const from = ref("");
-// const text = ref("");
 let stompClient: CompatClient | null = null;
 const topic = ref<TopicsCardProps>();
 
 api.get("/api/forum/messages").then((resp) => {
   topic.value = resp.data;
-  topicName.value = topic.value?.topicName ?? "Fallback Value"; // başka türlü error veriyor.
+  topicName.value = topic.value?.topicName ?? "Fallback Value";
 });
 
 const setConnected = (value: boolean) => {
@@ -86,19 +84,6 @@ const disconnect = () => {
   console.log("Disconnected");
 };
 
-/*
-const sendMessage = (message: string) => {
-  if (stompClient && from.value && message) {
-    stompClient.send(
-      `/api/ws/chat/${topicId}`,
-      {},
-      JSON.stringify({ from: from.value, text: message })
-    );
-    text.value = "";
-  }
-};
-*/
-
 const showMessageOutput = (messageOutput: MessagesCardProps) => {
   messages.value.push(messageOutput);
 };
@@ -119,6 +104,11 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.fullscreen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
 .q-pa-md {
   padding: 16px;
 }
@@ -139,19 +129,11 @@ onUnmounted(() => {
   left: 0;
   width: 100%;
 }
-#conversationDiv {
-  visibility: visible;
-}
-
-p {
-  word-wrap: break-word;
-}
 .page-sticky {
   background-color: rgb(7, 206, 140);
 }
-</style>
-<style>
-.custom-background {
-  color: rgb(182, 12, 35);
+.bottom-sticky {
+  z-index: 10;
+  pointer-events: auto;
 }
 </style>

@@ -15,13 +15,13 @@
 
         <div>
           Quasar v{{ $q.version }}
-          <q-item class="q-my-sm" clickable v-ripple @click="viewProfile">
+          <!-- <q-item class="q-my-sm" clickable v-ripple @click="viewProfile">
             <q-item-section avatar>
               <q-avatar color="green" text-color="white">
-                {{ user.avatarUrl }}
+                {{ user?.avatarUrl }}
               </q-avatar>
             </q-item-section>
-          </q-item>
+          </q-item> -->
         </div>
       </q-toolbar>
     </q-header>
@@ -66,7 +66,6 @@ import { LocalStorage } from "quasar";
 import { api } from "boot/axios";
 import { useRouter } from "vue-router";
 import { Writer } from "src/types/types";
-import { writer } from "repl";
 const token = LocalStorage.getItem("jwt");
 const router = useRouter();
 let user = ref<Writer>();
@@ -77,9 +76,9 @@ api.get("/api/forum/messages").then((resp) => {
   avatarUrl.value = user.value?.name ?? "Fallback Value"; // başka türlü error veriyor.
 });
 
-async function viewProfile() {
-  api.get("getuserprofileNavigation");
-}
+// async function viewProfile() {
+//   api.get("getuserprofileNavigation");
+// }
 
 if (token) {
   api.defaults.headers.common["Authorization"] = "Bearer " + token;
@@ -91,10 +90,6 @@ if (token) {
 defineOptions({
   name: "MainLayout",
 });
-
-setTimeout(() => {
-  description.value = "testing 2";
-}, 1000);
 
 const externalLinks: ExternalLinkProps[] = [
   {
