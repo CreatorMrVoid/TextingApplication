@@ -1,34 +1,32 @@
 <template>
-  <div>
-    <header reveal elevated>
+  <div class="fullscreen custom-background">
+    <q-page-sticky
+      position="top"
+      expand
+      class="bg-primary text-white"
+      style="z-index: 1"
+    >
       <q-toolbar class="bg-secondary text-white shadow-2">
+        <q-btn flat round dense icon="tornado" />
         <q-toolbar-title :title="topicName" />
-      </q-toolbar>
-    </header>
-    <q-page-sticky position="top" expand class="bg-primary text-white">
-      <q-toolbar>
-        <q-btn flat round dense icon="map" />
-        <q-toolbar-title> Title </q-toolbar-title>
       </q-toolbar>
     </q-page-sticky>
   </div>
   <q-page-container>
-    <div>
-      <MessagesCard
-        v-for="message in messages"
-        :key="message.id"
-        :id="message.id"
-        :text="message.text"
-        :writer="message.writer"
-      />
-    </div>
+    <MessagesCard
+      v-for="message in messages"
+      :key="message.id"
+      :id="message.id"
+      :text="message.text"
+      :writer="message.writer"
+    />
   </q-page-container>
   <q-container>
-    <div class="no-border">
-      <q-page-sticky position="bottom" expand class="bg text-white">
+    <q-page-sticky position="bottom" expand class="col">
+      <q-card>
         <SendMessage />
-      </q-page-sticky>
-    </div>
+      </q-card>
+    </q-page-sticky>
   </q-container>
 </template>
 
@@ -42,6 +40,7 @@ import MessagesCard from "src/components/MessagesCard.vue";
 import SockJS from "sockjs-client/dist/sockjs.js";
 import { CompatClient, Stomp } from "@stomp/stompjs";
 import { LocalStorage } from "quasar";
+import { TopicsCardProps } from "src/types/types";
 
 const route = useRoute();
 const messages = ref([] as MessagesCardProps[]);
@@ -51,9 +50,11 @@ const connected = ref(false);
 // const from = ref("");
 // const text = ref("");
 let stompClient: CompatClient | null = null;
+const topic = ref<TopicsCardProps>();
 
-api.get("/api/forum/topics").then((resp) => {
-  topicName.value = resp.data;
+api.get("/api/forum/messages").then((resp) => {
+  topic.value = resp.data;
+  topicName.value = topic.value?.topicName ?? "Fallback Value"; // başka türlü error veriyor.
 });
 
 const setConnected = (value: boolean) => {
@@ -144,5 +145,13 @@ onUnmounted(() => {
 
 p {
   word-wrap: break-word;
+}
+.page-sticky {
+  background-color: rgb(7, 206, 140);
+}
+</style>
+<style>
+.custom-background {
+  color: rgb(182, 12, 35);
 }
 </style>

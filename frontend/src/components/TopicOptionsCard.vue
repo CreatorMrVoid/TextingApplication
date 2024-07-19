@@ -133,17 +133,6 @@ const createTopic = async () => {
   }
   isDialogOpen.value = false;
   router.push("/forum/topics");
-  /*
-  io.of("/").adapter.on("create-room", (room) => {
-  console.log(`room ${room} was created`);
-});
-
-io.of("/").adapter.on("join-room", (room, id) => {
-  console.log(`socket ${id} has joined room ${room}`);
-});
-  // If else içinde, topic oluştuysa create room & join
-  // https://socket.io/docs/v4/rooms/#sample-use-cases
-*/
 };
 const searchTopic = async () => {
   try {

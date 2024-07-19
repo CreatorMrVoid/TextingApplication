@@ -1,6 +1,9 @@
 <template>
-  <div class="q-pa-md">
-    <q-form @submit="onSend" class="q-gutter-md">
+  <div>
+    <q-form
+      @submit="onSend"
+      class="fit row wrap justify-start items-start content-start"
+    >
       <q-item>
         <q-item-section>
           <q-input
@@ -10,6 +13,7 @@
             filled
             clearable
             :autocomplete="false"
+            autogrow
           />
         </q-item-section>
         <q-item-section side>
@@ -45,5 +49,20 @@ const onSend = async () => {
 <style scoped>
 .q-pa-md {
   padding: 16px;
+}
+.q-page-sticky.bottom-sticky {
+  width: 100%;
+}
+
+.q-page-sticky.bottom-sticky .q-card {
+  width: 100%;
+  background-color: white; /* Adjust as needed */
+}
+
+.q-input__inner {
+  min-width: 100%;
+}
+.q-input__inner {
+  max-width: 100%;
 }
 </style>

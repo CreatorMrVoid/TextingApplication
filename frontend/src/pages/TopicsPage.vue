@@ -35,3 +35,13 @@ onMounted(async () => {
   }
 });
 </script>
+
+<style lang="css">
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  color: rgb(235, 27, 96);
+}
+</style>

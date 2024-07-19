@@ -1,5 +1,5 @@
 export interface LikedTopicsCardProps {
-  id: number;
+  id: string;
   topicName: string;
   topicDescription: string;
   topicCreatorName: string;

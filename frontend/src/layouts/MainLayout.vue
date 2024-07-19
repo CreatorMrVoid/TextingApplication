@@ -13,7 +13,16 @@
 
         <q-toolbar-title> The Message App </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>
+          Quasar v{{ $q.version }}
+          <q-item class="q-my-sm" clickable v-ripple @click="viewProfile">
+            <q-item-section avatar>
+              <q-avatar color="green" text-color="white">
+                {{ user.avatarUrl }}
+              </q-avatar>
+            </q-item-section>
+          </q-item>
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -21,7 +30,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      style="background-color: antiquewhite"
+      style="background-color: lightgray"
     >
       <q-list>
         <q-item-label header> Essential Links </q-item-label>
@@ -56,8 +65,21 @@ import ExternalLink, { ExternalLinkProps } from "components/ExternalLink.vue";
 import { LocalStorage } from "quasar";
 import { api } from "boot/axios";
 import { useRouter } from "vue-router";
+import { Writer } from "src/types/types";
+import { writer } from "repl";
 const token = LocalStorage.getItem("jwt");
 const router = useRouter();
+let user = ref<Writer>();
+const avatarUrl = ref("Yükleniyor...");
+
+api.get("/api/forum/messages").then((resp) => {
+  user.value = resp.data;
+  avatarUrl.value = user.value?.name ?? "Fallback Value"; // başka türlü error veriyor.
+});
+
+async function viewProfile() {
+  api.get("getuserprofileNavigation");
+}
 
 if (token) {
   api.defaults.headers.common["Authorization"] = "Bearer " + token;
@@ -69,9 +91,6 @@ if (token) {
 defineOptions({
   name: "MainLayout",
 });
-
-// let title = "Test";
-let description = ref("testing");
 
 setTimeout(() => {
   description.value = "testing 2";

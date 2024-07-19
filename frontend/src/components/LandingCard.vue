@@ -87,9 +87,7 @@
 import { ref } from "vue";
 import { api } from "boot/axios";
 import { useRouter } from "vue-router";
-//import { useQuasar } from "quasar"; // localStorage kullanımı için eklendi
 import { LocalStorage } from "quasar";
-//import { Client, Message } from "@stomp/stompjs";
 
 const username = ref("");
 const usernameRegister = ref("");
@@ -99,21 +97,6 @@ const passwordCheck = ref("");
 const passwordRegister = ref("");
 const tab = ref("login");
 const router = useRouter();
-
-/*  const client = new StompJs.Client({
-    brokerURL: "ws://localhost:8080/ws",
-    connectHeaders: {
-      login: "user",
-      passcode: "password",
-    },
-    debug: function (str) {
-      console.log(str);
-    },
-    reconnectDelay: 5000,
-    heartbeatIncoming: 4000,
-    heartbeatOutgoing: 4000,
-  });
-*/
 
 async function login() {
   const body = { username: username.value, password: password.value };
@@ -126,20 +109,6 @@ async function login() {
     api.defaults.headers.common["Authorization"] = "Bearer " + response.data;
     LocalStorage.set("jwt", response.data);
     router.push("/forum/topics");
-    /*  client.onConnect = function (frame) {
-        // Do something, all subscribes must be done is this callback
-        // This is needed because this will be executed after a (re)connect
-      };
-      client.onStompError = function (frame) {
-        // Will be invoked in case of error encountered at Broker
-        // Bad login/passcode typically will cause an error
-        // Complaint brokers will set `message` header with a brief message. Body may contain details.
-        // Compliant brokers will terminate the connection after any error
-        console.log("Broker reported error: " + frame.headers["message"]);
-        console.log("Additional details: " + frame.body);
-      };
-      client.activate();
-    */
   } catch (error) {
     alert("Error: " + error);
   }
