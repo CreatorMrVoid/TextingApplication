@@ -37,7 +37,7 @@ public class TopicController {
         return views;
     }
 
-    @GetMapping("/created")
+    @GetMapping("/created") // My Topics için
     public List<TopicListView> getCreatedTopics(@RequestAttribute("username") String username) {
         Set<Topic> topics = userService.getUser(username).getCreatedTopics();
         List<TopicListView> views = topics.stream()

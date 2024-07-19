@@ -8,6 +8,7 @@ import com.lenora.staj.websocket.persistence.service.TopicService;
 import com.lenora.staj.websocket.persistence.service.UserService;
 import com.lenora.staj.websocket.rest.request.MessageSocketView;
 import com.lenora.staj.websocket.rest.request.MessageView;
+import com.lenora.staj.websocket.rest.response.TopicListView;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,6 +70,14 @@ public class MessageController {
             throw new NullPointerException("User not found!");
         }
     }
-    @GetMapping("/{topicId}")
-
+    @GetMapping
+    public TopicListView getTopicName(@PathVariable UUID topicId) {
+        Topic topic = topicService.findById(topicId);
+        return new TopicListView(
+                topic.getId().toString(),
+                topic.getName(),
+                topic.getDescription(),
+                topic.getCreator().getUsername()
+        );
+    }
 }
