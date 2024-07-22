@@ -1,23 +1,22 @@
 <template>
-  <div class="q-pa-md">
-    <q-form @submit="onSend" class="q-gutter-md">
-      <q-item>
-        <q-item-section>
-          <q-input
-            v-model="text"
-            color="primary"
-            label="Enter Text"
-            filled
-            clearable
-            :autocomplete="false"
-          />
-        </q-item-section>
-        <q-item-section side>
-          <q-btn label="Send" type="submit" color="green" />
-        </q-item-section>
-      </q-item>
-    </q-form>
-  </div>
+  <q-form
+    @submit="onSend"
+    class="fit row wrap justify-center items-center content-center"
+    style="width: 100%"
+  >
+    <q-input
+      v-model="text"
+      color="primary"
+      label="Enter Text"
+      style="width: 70%"
+      filled
+      clearable
+      :autocomplete="false"
+      autogrow
+      class="q-ma-md"
+    />
+    <q-btn label="Send" type="submit" color="green" class="q-mx-lg" />
+  </q-form>
 </template>
 
 <script setup lang="ts">
@@ -36,6 +35,7 @@ const onSend = async () => {
       "Content-Type": "text/plain",
     },
   });
+
   emits("send-message", text.value);
   text.value = "";
 };
@@ -44,5 +44,20 @@ const onSend = async () => {
 <style scoped>
 .q-pa-md {
   padding: 16px;
+}
+.q-page-sticky.bottom-sticky {
+  width: 100%;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.q-page-sticky.bottom-sticky .q-card {
+  width: 100%;
+  background-color: white; /* Adjust as needed */
+}
+
+.q-input__inner {
+  min-width: 100%;
+  max-width: 100%;
 }
 </style>

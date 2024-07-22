@@ -1,5 +1,5 @@
 export interface LikedTopicsCardProps {
-  id: number;
+  id: string;
   topicName: string;
   topicDescription: string;
   topicCreatorName: string;
@@ -23,6 +23,7 @@ export interface MessagesCardProps {
   id: string;
   text: string;
   writer: string;
+  createdAt: EpochTimeStamp;
 }
 
 //Message wirter

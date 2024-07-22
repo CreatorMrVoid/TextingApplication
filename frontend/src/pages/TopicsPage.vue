@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <div class="q-pa-md" style="max-width: 300px">
-      <q-toolbar class="bg-primary text-white shadow-2">
+      <q-toolbar class="bg-secondary text-white shadow-2">
         <q-toolbar-title>Topics</q-toolbar-title>
       </q-toolbar>
     </div>
@@ -35,3 +35,12 @@ onMounted(async () => {
   }
 });
 </script>
+
+<style lang="css">
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+</style>
